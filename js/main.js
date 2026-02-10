@@ -1,0 +1,189 @@
+/* ============================================
+   ANIMATION CONFIGURATION
+   ============================================
+
+   To change the intro animation style, modify the
+   'animationStyle' variable below.
+
+   Options:
+   - 'typing'     : Typewriter effect (current)
+   - 'fade-in'    : Simple fade in
+   - 'slide-up'   : Slide up from below
+   - 'word-fade'  : Word by word fade in
+
+   ============================================ */
+
+const animationStyle = 'typing';
+
+// The text to display in the intro
+const introText = "I'm Rui, a Product Designer";
+
+// Typing speed in milliseconds (lower = faster)
+const typingSpeed = 80;
+
+// ============================================
+// TYPING ANIMATION
+// ============================================
+
+function initTypingAnimation() {
+    const typingElement = document.getElementById('typing-text');
+    const cursor = document.querySelector('.cursor');
+    let charIndex = 0;
+
+    function type() {
+        if (charIndex < introText.length) {
+            typingElement.textContent += introText.charAt(charIndex);
+            charIndex++;
+            setTimeout(type, typingSpeed);
+        } else {
+            // Hide cursor after typing completes (optional)
+            // cursor.style.display = 'none';
+        }
+    }
+
+    // Start typing after a brief delay
+    setTimeout(type, 500);
+}
+
+// ============================================
+// FADE-IN ANIMATION
+// ============================================
+
+function initFadeInAnimation() {
+    const typingElement = document.getElementById('typing-text');
+    const cursor = document.querySelector('.cursor');
+
+    cursor.style.display = 'none';
+    typingElement.textContent = introText;
+    typingElement.style.opacity = '0';
+    typingElement.style.transition = 'opacity 0.8s ease';
+
+    setTimeout(() => {
+        typingElement.style.opacity = '1';
+    }, 300);
+}
+
+// ============================================
+// SLIDE-UP ANIMATION
+// ============================================
+
+function initSlideUpAnimation() {
+    const typingElement = document.getElementById('typing-text');
+    const cursor = document.querySelector('.cursor');
+
+    cursor.style.display = 'none';
+    typingElement.textContent = introText;
+    typingElement.style.opacity = '0';
+    typingElement.style.transform = 'translateY(30px)';
+    typingElement.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+
+    setTimeout(() => {
+        typingElement.style.opacity = '1';
+        typingElement.style.transform = 'translateY(0)';
+    }, 300);
+}
+
+// ============================================
+// WORD-BY-WORD FADE ANIMATION
+// ============================================
+
+function initWordFadeAnimation() {
+    const typingElement = document.getElementById('typing-text');
+    const cursor = document.querySelector('.cursor');
+
+    cursor.style.display = 'none';
+
+    const words = introText.split(' ');
+    typingElement.innerHTML = words.map((word, index) =>
+        `<span class="word" style="opacity: 0; transition: opacity 0.4s ease ${index * 0.15}s;">${word}</span>`
+    ).join(' ');
+
+    setTimeout(() => {
+        document.querySelectorAll('.word').forEach(word => {
+            word.style.opacity = '1';
+        });
+    }, 300);
+}
+
+// ============================================
+// SCROLL ANIMATIONS FOR CARDS
+// ============================================
+
+function initScrollAnimations() {
+    const cards = document.querySelectorAll('.project-card');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Add staggered delay for each card
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, index * 150);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    cards.forEach(card => observer.observe(card));
+}
+
+// ============================================
+// SMOOTH HOVER EFFECTS
+// ============================================
+
+function initHoverEffects() {
+    const cards = document.querySelectorAll('.project-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-8px) scale(1.01)';
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+}
+
+// ============================================
+// INITIALIZE
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize intro animation based on style
+    switch (animationStyle) {
+        case 'typing':
+            initTypingAnimation();
+            break;
+        case 'fade-in':
+            initFadeInAnimation();
+            break;
+        case 'slide-up':
+            initSlideUpAnimation();
+            break;
+        case 'word-fade':
+            initWordFadeAnimation();
+            break;
+        default:
+            initTypingAnimation();
+    }
+
+    // Initialize other animations
+    initScrollAnimations();
+
+    // Make cards visible immediately if they're in viewport on load
+    setTimeout(() => {
+        document.querySelectorAll('.project-card').forEach((card, index) => {
+            const rect = card.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                setTimeout(() => card.classList.add('visible'), index * 150);
+            }
+        });
+    }, 100);
+});
