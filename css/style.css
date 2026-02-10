@@ -1,0 +1,330 @@
+/* ============================================
+   ANIMATION STYLE TOGGLE
+   Change this variable to switch intro animations:
+   - 'typing'      : Typewriter effect
+   - 'fade-in'     : Fade in with stagger
+   - 'slide-up'    : Slide up from below
+   - 'word-fade'   : Word by word fade in
+   ============================================ */
+:root {
+    --animation-style: 'typing';
+
+    /* Colors */
+    --text-primary: #1a1a1a;
+    --text-secondary: #666;
+    --text-light: #999;
+    --background: #fafafa;
+    --accent: #3b82f6;
+
+    /* Card Gradients */
+    --card-1-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --card-2-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --card-3-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+
+    /* Spacing */
+    --section-padding: 80px;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    padding: var(--section-padding) 10%;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.greeting {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.intro {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.2;
+    min-height: 1.2em;
+}
+
+.typing-text {
+    background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.cursor {
+    display: inline-block;
+    color: var(--accent);
+    animation: blink 1s infinite;
+    font-weight: 400;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease 0.3s forwards;
+}
+
+/* Underline animation for the intro */
+.intro::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 4px;
+    background: var(--accent);
+    margin-top: 16px;
+    animation: drawLine 0.8s ease 1.5s forwards;
+}
+
+@keyframes drawLine {
+    to { width: 80px; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   PROJECTS SECTION
+   ============================================ */
+.projects {
+    padding: 40px 10% var(--section-padding);
+}
+
+.projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   PROJECT CARDS
+   ============================================ */
+.project-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 400px;
+    border-radius: 24px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Color Variations */
+.card-1 {
+    background: var(--card-1-gradient);
+}
+
+.card-2 {
+    background: var(--card-2-gradient);
+}
+
+.card-3 {
+    background: var(--card-3-gradient);
+}
+
+.card-content {
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+}
+
+.card-company {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
+
+.card-description {
+    font-size: 1rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.card-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 280px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    opacity: 0.8;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover .placeholder-image {
+    transform: scale(1.02);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    text-align: center;
+    padding: 60px 10%;
+    color: var(--text-secondary);
+}
+
+.footer a {
+    color: var(--accent);
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #2563eb;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 900px) {
+    .project-card {
+        grid-template-columns: 1fr;
+        min-height: auto;
+    }
+
+    .card-content {
+        padding: 32px;
+    }
+
+    .card-image {
+        padding: 0 32px 32px;
+    }
+
+    .placeholder-image {
+        height: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding: 60px 6%;
+    }
+
+    .projects {
+        padding: 20px 6% 60px;
+    }
+
+    .card-content {
+        padding: 24px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* ============================================
+   ALTERNATIVE ANIMATION STYLES
+   (Uncomment to use instead of typing)
+   ============================================ */
+
+/* Fade-in stagger style */
+/*
+.intro.fade-in-style {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.2s forwards;
+}
+*/
+
+/* Slide-up style */
+/*
+.intro.slide-up-style {
+    opacity: 0;
+    transform: translateY(100%);
+    animation: slideUp 0.8s ease 0.2s forwards;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+*/
