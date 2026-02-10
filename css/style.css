@@ -16,10 +16,10 @@
     --background: #fafafa;
     --accent: #3b82f6;
 
-    /* Card Gradients */
-    --card-1-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --card-2-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --card-3-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    /* Card Gradients - Muted, lower saturation */
+    --card-1-gradient: linear-gradient(135deg, #8b9dc3 0%, #9a8bb3 100%);
+    --card-2-gradient: linear-gradient(135deg, #d4a5c9 0%, #c9a5a5 100%);
+    --card-3-gradient: linear-gradient(135deg, #a5c4d4 0%, #a5d4d4 100%);
 
     /* Spacing */
     --section-padding: 80px;
