@@ -6,14 +6,15 @@
    'animationStyle' variable below.
 
    Options:
-   - 'typing'     : Typewriter effect (current)
+   - 'scramble'   : Hacker-style scramble effect (current)
+   - 'typing'     : Typewriter effect
    - 'fade-in'    : Simple fade in
    - 'slide-up'   : Slide up from below
    - 'word-fade'  : Word by word fade in
 
    ============================================ */
 
-const animationStyle = 'typing';
+const animationStyle = 'scramble';
 
 // The text to display in the intro
 const introText = "I'm Rui, a Product Designer";
@@ -103,6 +104,58 @@ function initWordFadeAnimation() {
             word.style.opacity = '1';
         });
     }, 300);
+}
+
+// ============================================
+// SCRAMBLE (HACKER) ANIMATION
+// ============================================
+
+function initScrambleAnimation() {
+    const typingElement = document.getElementById('typing-text');
+    const cursor = document.querySelector('.cursor');
+
+    cursor.style.display = 'none';
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*';
+    const duration = 2000; // Total animation duration in ms
+    const frameRate = 30; // Updates per second
+    const totalFrames = (duration / 1000) * frameRate;
+
+    let frame = 0;
+    typingElement.style.fontFamily = 'inherit';
+
+    function scramble() {
+        const progress = frame / totalFrames;
+        const revealedLength = Math.floor(introText.length * progress);
+
+        let result = '';
+        for (let i = 0; i < introText.length; i++) {
+            if (introText[i] === ' ') {
+                result += ' ';
+            } else if (i < revealedLength) {
+                // Character is revealed
+                result += introText[i];
+            } else if (i < revealedLength + 3) {
+                // Characters being scrambled (rolling window)
+                result += chars[Math.floor(Math.random() * chars.length)];
+            } else {
+                // Characters not yet reached
+                result += '';
+            }
+        }
+
+        typingElement.textContent = result;
+        frame++;
+
+        if (frame <= totalFrames) {
+            requestAnimationFrame(scramble);
+        } else {
+            typingElement.textContent = introText;
+        }
+    }
+
+    // Start after a brief delay
+    setTimeout(scramble, 500);
 }
 
 // ============================================
@@ -218,6 +271,9 @@ function initScrollIndicatorHide() {
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize intro animation based on style
     switch (animationStyle) {
+        case 'scramble':
+            initScrambleAnimation();
+            break;
         case 'typing':
             initTypingAnimation();
             break;
@@ -231,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initWordFadeAnimation();
             break;
         default:
-            initTypingAnimation();
+            initScrambleAnimation();
     }
 
     // Initialize other animations
