@@ -120,7 +120,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    min-height: 100vh;
+    height: 100vh;
     z-index: 1;
     background: var(--background);
 }
@@ -131,24 +131,45 @@ body {
     pointer-events: none;
 }
 
-/* Stacking sections that overlay */
-.stacking-section[data-stack-order="2"],
+/* Projects wrapper - just for structure */
+.projects-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+/* Projects section - fixed, stays in place while About overlays */
+.stacking-section[data-stack-order="2"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--background);
+    border-radius: 32px 32px 0 0;
+    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    /* Start below viewport, slide up */
+    transform: translateY(100vh);
+    transition: none;
+}
+
+/* When projects is visible - slide into view */
+.stacking-section[data-stack-order="2"].visible {
+    /* Transform controlled by JavaScript for scroll position */
+}
+
+/* Scroll spacer - creates room to scroll through all projects */
+/* Height is calculated dynamically by JavaScript */
+.projects-scroll-spacer {
+    pointer-events: none;
+}
+
+/* About section - relative, scrolls over Projects */
 .stacking-section[data-stack-order="3"] {
     position: relative;
     min-height: 100vh;
     background: var(--background);
     border-radius: 32px 32px 0 0;
     box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-}
-
-/* Projects section */
-.stacking-section[data-stack-order="2"] {
-    z-index: 2;
-}
-
-/* About section */
-.stacking-section[data-stack-order="3"] {
     z-index: 3;
 }
 
@@ -431,9 +452,13 @@ a {
    PROJECTS SECTION
    ============================================ */
 .projects {
-    padding: 40px 10% var(--section-padding);
+    padding: 50px 10% 80px;
     position: relative;
-    overflow: hidden;
+}
+
+/* Add extra top padding for drawer handle */
+.stacking-section[data-stack-order="2"].projects {
+    padding-top: 50px;
 }
 
 /* Animated gradient background for glass effect */
@@ -594,10 +619,11 @@ a {
    ============================================ */
 .about-section {
     background: linear-gradient(180deg, #f8f9ff 0%, #f0f4ff 100%);
-    padding: 100px 10% 80px;
+    padding: 60px 10% 80px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding-top: 60px;
 }
 
 .about-section-content {
@@ -880,9 +906,18 @@ a {
 }
 
 @media (max-width: 600px) {
+    .nav {
+        padding: 16px 6%;
+    }
+
     .hero {
         padding: 60px 6%;
+        height: 100vh;
         min-height: 100vh;
+    }
+
+    .hero-spacer {
+        height: 100vh;
     }
 
     .hero-cta {
@@ -919,7 +954,7 @@ a {
     }
 
     .projects {
-        padding: 20px 6% 60px;
+        padding: 40px 6% 60px;
     }
 
     .card-content {
@@ -948,7 +983,7 @@ a {
     }
 
     .about-section {
-        padding: 80px 6% 60px;
+        padding: 50px 6% 60px;
     }
 
     .about-section-header {
