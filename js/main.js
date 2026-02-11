@@ -265,6 +265,23 @@ function initScrollIndicatorHide() {
 }
 
 // ============================================
+// NAVIGATION GLASS EFFECT ON SCROLL
+// ============================================
+
+function initNavScrollEffect() {
+    const nav = document.querySelector('.nav');
+    if (!nav) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 
@@ -295,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initParallaxEffect();
     initSmoothScroll();
     initScrollIndicatorHide();
+    initNavScrollEffect();
 
     // Make cards visible immediately if they're in viewport on load
     setTimeout(() => {
