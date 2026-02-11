@@ -14,7 +14,7 @@
 
    ============================================ */
 
-const animationStyle = 'scramble';
+const animationStyle = 'fade-in';
 
 // The text to display in the intro
 const introText = "I'm Rui, a Product Designer";
@@ -282,6 +282,103 @@ function initNavScrollEffect() {
 }
 
 // ============================================
+// STACKING/DRAWER SCROLL EFFECT
+// ============================================
+
+function initStackingEffect() {
+    const sections = document.querySelectorAll('.stacking-section');
+    if (sections.length === 0) return;
+
+    const heroSection = document.querySelector('.stacking-section[data-stack-order="1"]');
+    const heroSpacer = document.querySelector('.hero-spacer');
+    const projectsSection = document.querySelector('.stacking-section[data-stack-order="2"]');
+    const projectsWrapper = document.querySelector('.projects-wrapper');
+    const projectsSpacer = document.querySelector('.projects-scroll-spacer');
+
+    if (projectsSection && projectsSpacer && heroSpacer && projectsWrapper) {
+        const updateLayout = () => {
+            const projectsHeight = projectsSection.offsetHeight;
+            // Spacer height = projects content height (so user can scroll through all of it)
+            projectsSpacer.style.height = projectsHeight + 'px';
+        };
+
+        // Update on load and resize
+        updateLayout();
+        window.addEventListener('resize', updateLayout);
+
+        // Handle scroll
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            const heroSpacerTop = heroSpacer.offsetTop;
+            const heroSpacerBottom = heroSpacerTop + heroSpacer.offsetHeight;
+            const projectsHeight = projectsSection.offsetHeight;
+            const wrapperTop = projectsWrapper.offsetTop;
+            const wrapperBottom = wrapperTop + projectsWrapper.offsetHeight;
+
+            // Phase 1: Hero visible, Projects not yet appearing
+            if (scrollY < heroSpacerTop) {
+                projectsSection.style.transform = 'translateY(100vh)';
+                projectsSection.classList.remove('visible');
+            }
+            // Phase 2: Scrolling through hero spacer - Projects slides up from bottom
+            else if (scrollY >= heroSpacerTop && scrollY < heroSpacerBottom) {
+                const progress = (scrollY - heroSpacerTop) / viewportHeight;
+                const slideUp = viewportHeight * (1 - progress);
+                projectsSection.style.transform = `translateY(${slideUp}px)`;
+                projectsSection.classList.add('visible');
+            }
+            // Phase 3: Scrolling through projects wrapper - scroll through projects content
+            else if (scrollY >= heroSpacerBottom && scrollY < wrapperBottom) {
+                const scrollInWrapper = scrollY - heroSpacerBottom;
+                const maxScroll = Math.max(0, projectsHeight - viewportHeight);
+                const scrollProgress = Math.min(scrollInWrapper, maxScroll);
+                projectsSection.style.transform = `translateY(-${scrollProgress}px)`;
+                projectsSection.classList.add('visible');
+            }
+            // Phase 4: Past projects wrapper - keep at final position
+            else if (scrollY >= wrapperBottom) {
+                const maxScroll = Math.max(0, projectsHeight - viewportHeight);
+                projectsSection.style.transform = `translateY(-${maxScroll}px)`;
+                projectsSection.classList.add('visible');
+            }
+        });
+
+        // Trigger initial scroll calculation
+        window.dispatchEvent(new Event('scroll'));
+    }
+
+    // Update active nav link based on scroll position
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if (section.id) {
+            observer.observe(section);
+        }
+    });
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 
@@ -313,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initScrollIndicatorHide();
     initNavScrollEffect();
+    initStackingEffect();
 
     // Make cards visible immediately if they're in viewport on load
     setTimeout(() => {

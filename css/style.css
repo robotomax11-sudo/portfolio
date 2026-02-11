@@ -83,6 +83,12 @@
     background: var(--text-primary);
 }
 
+.nav-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
 /* Reset & Base */
 * {
     margin: 0;
@@ -99,6 +105,87 @@ body {
     background-color: var(--background);
     color: var(--text-primary);
     line-height: 1.6;
+}
+
+/* ============================================
+   STACKING/DRAWER SCROLL EFFECT
+   ============================================ */
+.stacking-page {
+    background: #1a1a2e;
+}
+
+/* First section (Hero) - fixed in place */
+.stacking-section[data-stack-order="1"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    z-index: 1;
+    background: var(--background);
+}
+
+/* Spacer to push content below fixed hero */
+.hero-spacer {
+    height: 100vh;
+    pointer-events: none;
+}
+
+/* Projects wrapper - just for structure */
+.projects-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+/* Projects section - fixed, stays in place while About overlays */
+.stacking-section[data-stack-order="2"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--background);
+    border-radius: 32px 32px 0 0;
+    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    /* Start below viewport, slide up */
+    transform: translateY(100vh);
+    transition: none;
+}
+
+/* When projects is visible - slide into view */
+.stacking-section[data-stack-order="2"].visible {
+    /* Transform controlled by JavaScript for scroll position */
+}
+
+/* Scroll spacer - creates room to scroll through all projects */
+/* Height is calculated dynamically by JavaScript */
+.projects-scroll-spacer {
+    pointer-events: none;
+}
+
+/* About section - relative, scrolls over Projects */
+.stacking-section[data-stack-order="3"] {
+    position: relative;
+    min-height: 100vh;
+    background: var(--background);
+    border-radius: 32px 32px 0 0;
+    box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+/* Drawer handle indicator */
+.stacking-section[data-stack-order="2"]::before,
+.stacking-section[data-stack-order="3"]::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    z-index: 11;
 }
 
 a {
@@ -365,9 +452,13 @@ a {
    PROJECTS SECTION
    ============================================ */
 .projects {
-    padding: 40px 10% var(--section-padding);
+    padding: 50px 10% 80px;
     position: relative;
-    overflow: hidden;
+}
+
+/* Add extra top padding for drawer handle */
+.stacking-section[data-stack-order="2"].projects {
+    padding-top: 50px;
 }
 
 /* Animated gradient background for glass effect */
@@ -524,6 +615,176 @@ a {
 }
 
 /* ============================================
+   ABOUT SECTION (Landing Page)
+   ============================================ */
+.about-section {
+    background: linear-gradient(180deg, #f8f9ff 0%, #f0f4ff 100%);
+    padding: 60px 10% 80px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 60px;
+}
+
+.about-section-content {
+    max-width: 1000px;
+    width: 100%;
+}
+
+.about-section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.about-section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.about-section-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.about-section-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 60px;
+    margin-bottom: 80px;
+}
+
+.about-section-text p {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.about-section-text p strong {
+    color: var(--text-primary);
+}
+
+.about-section-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 16px;
+    transition: gap 0.3s ease;
+}
+
+.about-section-link:hover {
+    gap: 12px;
+}
+
+.about-section-link svg {
+    transition: transform 0.3s ease;
+}
+
+.about-section-link:hover svg {
+    transform: translateX(4px);
+}
+
+.about-section-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+}
+
+.about-section-stats .stat-item {
+    background: white;
+    padding: 24px 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-section-stats .stat-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.about-section-stats .stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+}
+
+.about-section-stats .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.about-section-contact {
+    text-align: center;
+    padding-top: 60px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.contact-tagline {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.contact-email {
+    display: inline-block;
+    font-size: 1.25rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 24px;
+    transition: transform 0.3s ease;
+}
+
+.contact-email:hover {
+    transform: scale(1.05);
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--accent);
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.contact-link svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================
    FOOTER
    ============================================ */
 .footer {
@@ -620,12 +881,43 @@ a {
     .placeholder-image {
         height: 200px;
     }
+
+    .about-section-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-section-stats {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .about-section-stats .stat-item {
+        flex: 1;
+        min-width: 140px;
+        text-align: center;
+    }
+
+    .stacking-section[data-stack-order="2"],
+    .stacking-section[data-stack-order="3"] {
+        border-radius: 24px 24px 0 0;
+    }
 }
 
 @media (max-width: 600px) {
+    .nav {
+        padding: 16px 6%;
+    }
+
     .hero {
         padding: 60px 6%;
+        height: 100vh;
         min-height: 100vh;
+    }
+
+    .hero-spacer {
+        height: 100vh;
     }
 
     .hero-cta {
@@ -662,7 +954,7 @@ a {
     }
 
     .projects {
-        padding: 20px 6% 60px;
+        padding: 40px 6% 60px;
     }
 
     .card-content {
@@ -683,6 +975,39 @@ a {
 
     .footer-email {
         font-size: 1rem;
+    }
+
+    .stacking-section[data-stack-order="2"],
+    .stacking-section[data-stack-order="3"] {
+        border-radius: 20px 20px 0 0;
+    }
+
+    .about-section {
+        padding: 50px 6% 60px;
+    }
+
+    .about-section-header {
+        margin-bottom: 40px;
+    }
+
+    .about-section-text p {
+        font-size: 1rem;
+    }
+
+    .about-section-stats .stat-item {
+        padding: 20px 24px;
+    }
+
+    .about-section-stats .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .about-section-contact {
+        padding-top: 40px;
+    }
+
+    .contact-tagline {
+        font-size: 1.25rem;
     }
 }
 
