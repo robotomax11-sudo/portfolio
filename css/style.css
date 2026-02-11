@@ -99,6 +99,7 @@
 
 html {
     scroll-behavior: smooth;
+    overscroll-behavior: none;
 }
 
 body {
@@ -125,6 +126,7 @@ body {
     z-index: 1;
     background: var(--background);
     pointer-events: none;
+    overflow: hidden;
 }
 
 /* Re-enable pointer events for hero interactive content */
@@ -150,7 +152,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: var(--background);
+    background: #fafafa;
     border-radius: 0;
     box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.2);
     z-index: 2;
@@ -159,6 +161,7 @@ body {
     transition: none;
     will-change: transform;
     pointer-events: none;
+    overflow: hidden;
 }
 
 /* Re-enable pointer events for projects content */
@@ -186,6 +189,7 @@ body {
     box-shadow: 0 -10px 60px rgba(0, 0, 0, 0.2);
     z-index: 3;
 }
+
 
 /* About page section within stacking layout */
 .about-page-section .about-hero {
@@ -235,10 +239,11 @@ a {
 .gradient-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
+    filter: blur(120px);
     opacity: 0.5;
 }
 
+/* Top left orb */
 .orb-1 {
     width: 350px;
     height: 350px;
@@ -248,42 +253,16 @@ a {
     animation: float-orb-1 25s ease-in-out infinite;
 }
 
+/* Bottom right orb */
 .orb-2 {
     width: 280px;
     height: 280px;
     background: radial-gradient(circle, rgba(240, 147, 251, 0.7) 0%, rgba(245, 87, 108, 0.3) 50%, transparent 70%);
-    top: 5%;
+    bottom: 10%;
     right: 10%;
     animation: float-orb-2 30s ease-in-out infinite;
 }
 
-.orb-3 {
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(79, 172, 254, 0.7) 0%, rgba(0, 242, 254, 0.3) 50%, transparent 70%);
-    bottom: 10%;
-    right: 10%;
-    animation: float-orb-3 20s ease-in-out infinite;
-}
-
-.orb-4 {
-    width: 260px;
-    height: 260px;
-    background: radial-gradient(circle, rgba(118, 75, 162, 0.7) 0%, rgba(102, 126, 234, 0.3) 50%, transparent 70%);
-    top: 40%;
-    left: 45%;
-    transform: translateX(-50%);
-    animation: float-orb-4 22s ease-in-out infinite;
-}
-
-@keyframes float-orb-4 {
-    0% { transform: translate(-50%, 0) scale(1); }
-    20% { transform: translate(calc(-50% + 80px), -60px) scale(1.1); }
-    40% { transform: translate(calc(-50% - 60px), 80px) scale(0.92); }
-    60% { transform: translate(calc(-50% + 50px), 50px) scale(1.05); }
-    80% { transform: translate(calc(-50% - 70px), -40px) scale(0.95); }
-    100% { transform: translate(-50%, 0) scale(1); }
-}
 
 @keyframes float-orb-1 {
     0% { transform: translate(0, 0) scale(1); }
@@ -305,16 +284,6 @@ a {
     100% { transform: translate(0, 0) scale(1); }
 }
 
-@keyframes float-orb-3 {
-    0% { transform: translate(0, 0) scale(1); }
-    12% { transform: translate(-100px, 120px) scale(1.1); }
-    28% { transform: translate(140px, -80px) scale(0.88); }
-    42% { transform: translate(-160px, -140px) scale(1.05); }
-    58% { transform: translate(80px, 100px) scale(1.12); }
-    72% { transform: translate(-60px, -60px) scale(0.92); }
-    88% { transform: translate(120px, 40px) scale(1.08); }
-    100% { transform: translate(0, 0) scale(1); }
-}
 
 .hero-content {
     max-width: 1100px;
@@ -552,20 +521,6 @@ a {
 }
 
 /* Animated gradient background for glass effect */
-.projects::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(240, 147, 251, 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse 50% 30% at 50% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-}
 
 .projects-grid {
     display: flex;
