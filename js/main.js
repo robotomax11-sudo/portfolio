@@ -14,7 +14,7 @@
 
    ============================================ */
 
-const animationStyle = 'scramble';
+const animationStyle = 'fade-in';
 
 // The text to display in the intro
 const introText = "I'm Rui, a Product Designer";
@@ -282,6 +282,44 @@ function initNavScrollEffect() {
 }
 
 // ============================================
+// STACKING/DRAWER SCROLL EFFECT
+// ============================================
+
+function initStackingEffect() {
+    const sections = document.querySelectorAll('.stacking-section');
+    if (sections.length === 0) return;
+
+    // Update active nav link based on scroll position
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if (section.id) {
+            observer.observe(section);
+        }
+    });
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 
@@ -313,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initScrollIndicatorHide();
     initNavScrollEffect();
+    initStackingEffect();
 
     // Make cards visible immediately if they're in viewport on load
     setTimeout(() => {
