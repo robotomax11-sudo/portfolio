@@ -234,13 +234,29 @@ function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            const href = this.getAttribute('href');
+            const targetId = href.substring(1);
+
+            // Calculate scroll position based on the stacking layout
+            const heroSpacer = document.querySelector('.hero-spacer');
+            const projectsWrapper = document.querySelector('.projects-wrapper');
+            const projectsSection = document.querySelector('#projects');
+            const aboutSection = document.querySelector('#about');
+
+            let scrollTarget = 0;
+
+            if (targetId === 'projects' && heroSpacer) {
+                // Scroll to where projects section becomes fully visible
+                scrollTarget = heroSpacer.offsetTop + heroSpacer.offsetHeight;
+            } else if (targetId === 'about' && projectsWrapper) {
+                // Scroll to where about section starts
+                scrollTarget = projectsWrapper.offsetTop + projectsWrapper.offsetHeight;
             }
+
+            window.scrollTo({
+                top: scrollTarget,
+                behavior: 'smooth'
+            });
         });
     });
 }
@@ -296,25 +312,35 @@ function initStackingEffect() {
     const projectsSpacer = document.querySelector('.projects-scroll-spacer');
 
     if (projectsSection && projectsSpacer && heroSpacer && projectsWrapper) {
-        const updateLayout = () => {
-            const projectsHeight = projectsSection.offsetHeight;
-            // Spacer height = projects content height (so user can scroll through all of it)
-            projectsSpacer.style.height = projectsHeight + 'px';
+        // Cache layout values to avoid reading on every scroll
+        let cachedValues = {};
+        let ticking = false;
+
+        const updateCachedValues = () => {
+            cachedValues = {
+                viewportHeight: window.innerHeight,
+                heroSpacerTop: heroSpacer.offsetTop,
+                heroSpacerBottom: heroSpacer.offsetTop + heroSpacer.offsetHeight,
+                projectsHeight: projectsSection.offsetHeight,
+                wrapperTop: projectsWrapper.offsetTop,
+                wrapperBottom: projectsWrapper.offsetTop + projectsWrapper.offsetHeight
+            };
         };
 
-        // Update on load and resize
+        const updateLayout = () => {
+            const projectsHeight = projectsSection.offsetHeight;
+            projectsSpacer.style.height = projectsHeight + 'px';
+            updateCachedValues();
+        };
+
+        // Update on load, resize, and after images load
         updateLayout();
         window.addEventListener('resize', updateLayout);
+        window.addEventListener('load', updateLayout);
 
-        // Handle scroll
-        window.addEventListener('scroll', () => {
+        const updateScroll = () => {
             const scrollY = window.scrollY;
-            const viewportHeight = window.innerHeight;
-            const heroSpacerTop = heroSpacer.offsetTop;
-            const heroSpacerBottom = heroSpacerTop + heroSpacer.offsetHeight;
-            const projectsHeight = projectsSection.offsetHeight;
-            const wrapperTop = projectsWrapper.offsetTop;
-            const wrapperBottom = wrapperTop + projectsWrapper.offsetHeight;
+            const { viewportHeight, heroSpacerTop, heroSpacerBottom, projectsHeight, wrapperBottom } = cachedValues;
 
             // Phase 1: Hero visible, Projects not yet appearing
             if (scrollY < heroSpacerTop) {
@@ -342,40 +368,51 @@ function initStackingEffect() {
                 projectsSection.style.transform = `translateY(-${maxScroll}px)`;
                 projectsSection.classList.add('visible');
             }
-        });
+
+            ticking = false;
+        };
+
+        // Handle scroll with requestAnimationFrame for smooth performance
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScroll);
+                ticking = true;
+            }
+        }, { passive: true });
 
         // Trigger initial scroll calculation
-        window.dispatchEvent(new Event('scroll'));
-    }
+        updateScroll();
 
-    // Update active nav link based on scroll position
-    const navLinks = document.querySelectorAll('.nav-link');
+        // Update active nav link based on scroll position
+        const navLinks = document.querySelectorAll('.nav-link');
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '-50% 0px -50% 0px',
-        threshold: 0
-    };
+        function updateNavActiveState() {
+            const scrollY = window.scrollY;
+            const heroSpacerBottom = heroSpacer.offsetTop + heroSpacer.offsetHeight;
+            const projectsWrapperBottom = projectsWrapper.offsetTop + projectsWrapper.offsetHeight;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const sectionId = entry.target.id;
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
+            // Clear all active states first
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Determine which section is active based on scroll position
+            if (scrollY < heroSpacerBottom - 100) {
+                // In hero section - no active state
+            } else if (scrollY < projectsWrapperBottom - 100) {
+                // In projects section
+                const projectsLink = document.querySelector('.nav-link[href="#projects"]');
+                if (projectsLink) projectsLink.classList.add('active');
+            } else {
+                // In about section
+                const aboutLink = document.querySelector('.nav-link[href="#about"]');
+                if (aboutLink) aboutLink.classList.add('active');
             }
-        });
-    }, observerOptions);
-
-    sections.forEach(section => {
-        if (section.id) {
-            observer.observe(section);
         }
-    });
+
+        // Update on scroll
+        window.addEventListener('scroll', updateNavActiveState, { passive: true });
+        // Initial update
+        updateNavActiveState();
+    }
 }
 
 // ============================================
