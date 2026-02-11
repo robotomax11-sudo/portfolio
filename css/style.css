@@ -242,7 +242,7 @@ a {
 .orb-1 {
     width: 350px;
     height: 350px;
-    background: radial-gradient(circle, rgba(30, 58, 138, 0.7) 0%, rgba(51, 65, 85, 0.4) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.4) 50%, transparent 70%);
     top: 5%;
     left: 5%;
     animation: float-orb-1 25s ease-in-out infinite;
@@ -251,7 +251,7 @@ a {
 .orb-2 {
     width: 280px;
     height: 280px;
-    background: radial-gradient(circle, rgba(71, 85, 105, 0.6) 0%, rgba(100, 116, 139, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(240, 147, 251, 0.7) 0%, rgba(245, 87, 108, 0.3) 50%, transparent 70%);
     top: 5%;
     right: 10%;
     animation: float-orb-2 30s ease-in-out infinite;
@@ -260,7 +260,7 @@ a {
 .orb-3 {
     width: 220px;
     height: 220px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, rgba(96, 165, 250, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(79, 172, 254, 0.7) 0%, rgba(0, 242, 254, 0.3) 50%, transparent 70%);
     bottom: 10%;
     right: 10%;
     animation: float-orb-3 20s ease-in-out infinite;
@@ -269,7 +269,7 @@ a {
 .orb-4 {
     width: 260px;
     height: 260px;
-    background: radial-gradient(circle, rgba(79, 70, 229, 0.5) 0%, rgba(99, 102, 241, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(118, 75, 162, 0.7) 0%, rgba(102, 126, 234, 0.3) 50%, transparent 70%);
     top: 40%;
     left: 45%;
     transform: translateX(-50%);
@@ -885,6 +885,46 @@ a {
     overflow: hidden;
 }
 
+/* Contact Footer */
+.footer-dark {
+    background: var(--background);
+    padding: 60px 10%;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.footer-contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    flex-wrap: wrap;
+}
+
+.footer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer-item:hover {
+    color: var(--accent);
+}
+
+.footer-item svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-secondary);
+    transition: stroke 0.3s ease;
+}
+
+.footer-item:hover svg {
+    stroke: var(--accent);
+}
+
 
 .footer-content {
     max-width: 600px;
@@ -1287,7 +1327,7 @@ a {
 .shape-1 {
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(30, 58, 138, 0.7) 0%, rgba(51, 65, 85, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.3) 50%, transparent 70%);
     top: 5%;
     left: -5%;
     animation: float-shape-1 20s ease-in-out infinite;
@@ -1296,7 +1336,7 @@ a {
 .shape-2 {
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(71, 85, 105, 0.6) 0%, rgba(100, 116, 139, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(240, 147, 251, 0.7) 0%, rgba(245, 87, 108, 0.3) 50%, transparent 70%);
     top: 15%;
     right: -3%;
     animation: float-shape-2 25s ease-in-out infinite;
@@ -1305,7 +1345,7 @@ a {
 .shape-3 {
     width: 250px;
     height: 250px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, rgba(96, 165, 250, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(79, 172, 254, 0.7) 0%, rgba(0, 242, 254, 0.3) 50%, transparent 70%);
     top: 40%;
     left: 10%;
     animation: float-shape-3 18s ease-in-out infinite;
@@ -1314,7 +1354,7 @@ a {
 .shape-4 {
     width: 350px;
     height: 350px;
-    background: radial-gradient(circle, rgba(79, 70, 229, 0.5) 0%, rgba(99, 102, 241, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(118, 75, 162, 0.7) 0%, rgba(102, 126, 234, 0.3) 50%, transparent 70%);
     top: 60%;
     right: 5%;
     animation: float-shape-4 22s ease-in-out infinite;
@@ -1323,7 +1363,7 @@ a {
 .shape-5 {
     width: 280px;
     height: 280px;
-    background: radial-gradient(circle, rgba(51, 65, 85, 0.5) 0%, rgba(71, 85, 105, 0.3) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(245, 87, 108, 0.6) 0%, rgba(240, 147, 251, 0.3) 50%, transparent 70%);
     top: 80%;
     left: 15%;
     animation: float-shape-5 24s ease-in-out infinite;
@@ -1666,5 +1706,18 @@ a {
 
     .connect-section {
         padding: 60px 6%;
+    }
+
+    .footer-dark {
+        padding: 40px 6%;
+    }
+
+    .footer-contact {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .footer-item {
+        font-size: 0.9rem;
     }
 }
