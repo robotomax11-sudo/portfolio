@@ -183,12 +183,17 @@
             30% { opacity: 1; }
         }
 
-        /* Iframe */
+        /* Iframe - extra height to hide Figma footer */
         #figmaFrame {
             width: 100%;
-            height: 100%;
+            height: calc(100% + 150px);
             border: none;
             display: none;
+        }
+
+        .content-area {
+            overflow: hidden;
+            background: #000;
         }
 
         #figmaFrame.loaded {
