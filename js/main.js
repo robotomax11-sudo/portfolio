@@ -530,4 +530,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }, 100);
+
+    // Handle hash on page load (for links like index.html#projects)
+    if (window.location.hash) {
+        const targetId = window.location.hash.substring(1);
+        const heroSpacer = document.querySelector('.hero-spacer');
+
+        if (targetId === 'projects' && heroSpacer) {
+            // Small delay to ensure layout is ready
+            setTimeout(() => {
+                const scrollTarget = heroSpacer.offsetTop + heroSpacer.offsetHeight;
+                window.scrollTo({
+                    top: scrollTarget,
+                    behavior: 'instant'
+                });
+            }, 100);
+        }
+    }
 });
