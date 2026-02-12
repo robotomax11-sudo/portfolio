@@ -6,7 +6,8 @@
    'animationStyle' variable below.
 
    Options:
-   - 'scramble'   : Hacker-style scramble effect (current)
+   - 'text-swap'  : Dynamic headline with typewriter swap (recommended)
+   - 'scramble'   : Hacker-style scramble effect
    - 'typing'     : Typewriter effect
    - 'fade-in'    : Simple fade in
    - 'slide-up'   : Slide up from below
@@ -14,13 +15,81 @@
 
    ============================================ */
 
-const animationStyle = 'fade-in';
+const animationStyle = 'text-swap';
 
-// The text to display in the intro
+// Static part of the intro (always visible)
+const introStatic = "I'm Rui, ";
+
+// Roles to cycle through
+const roles = [
+    "a Product Designer",
+    "a Problem Solver",
+    "a Design Hobbyist"
+];
+
+// The text to display in the intro (used by other animation styles)
 const introText = "I'm Rui, a Product Designer";
 
 // Typing speed in milliseconds (lower = faster)
 const typingSpeed = 80;
+
+// Delete speed in milliseconds (faster than typing)
+const deleteSpeed = 40;
+
+// Pause before deleting (ms)
+const pauseBeforeDelete = 2000;
+
+// Pause before typing next role (ms)
+const pauseBeforeType = 500;
+
+// ============================================
+// TEXT SWAP ANIMATION (Dynamic Headline)
+// ============================================
+
+function initTextSwapAnimation() {
+    const typingElement = document.getElementById('typing-text');
+    const cursor = document.querySelector('.cursor');
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let currentRole = roles[roleIndex];
+
+    // Set up the static part and role container
+    typingElement.innerHTML = `<span class="static-text">${introStatic}</span><span class="role-text"></span>`;
+    const roleElement = typingElement.querySelector('.role-text');
+
+    function type() {
+        if (isDeleting) {
+            // Deleting characters
+            if (charIndex > 0) {
+                charIndex--;
+                roleElement.textContent = currentRole.substring(0, charIndex);
+                setTimeout(type, deleteSpeed);
+            } else {
+                // Done deleting, move to next role
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+                currentRole = roles[roleIndex];
+                setTimeout(type, pauseBeforeType);
+            }
+        } else {
+            // Typing characters
+            if (charIndex < currentRole.length) {
+                charIndex++;
+                roleElement.textContent = currentRole.substring(0, charIndex);
+                setTimeout(type, typingSpeed);
+            } else {
+                // Done typing, pause then start deleting
+                isDeleting = true;
+                setTimeout(type, pauseBeforeDelete);
+            }
+        }
+    }
+
+    // Start typing after a brief delay
+    setTimeout(type, 500);
+}
 
 // ============================================
 // TYPING ANIMATION
@@ -422,6 +491,9 @@ function initStackingEffect() {
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize intro animation based on style
     switch (animationStyle) {
+        case 'text-swap':
+            initTextSwapAnimation();
+            break;
         case 'scramble':
             initScrambleAnimation();
             break;
@@ -438,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initWordFadeAnimation();
             break;
         default:
-            initScrambleAnimation();
+            initTextSwapAnimation();
     }
 
     // Initialize other animations
