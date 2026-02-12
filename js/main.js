@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scrollTarget = heroSpacer.offsetTop + heroSpacer.offsetHeight;
                 window.scrollTo({
                     top: scrollTarget,
-                    behavior: 'instant'
+                    behavior: 'smooth'
                 });
             }, 100);
         }
