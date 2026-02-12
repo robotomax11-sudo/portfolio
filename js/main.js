@@ -1,417 +1,360 @@
 /* ============================================
-   ANIMATION CONFIGURATION
-   ============================================
-
-   To change the intro animation style, modify the
-   'animationStyle' variable below.
-
-   Options:
-   - 'scramble'   : Hacker-style scramble effect (current)
-   - 'typing'     : Typewriter effect
-   - 'fade-in'    : Simple fade in
-   - 'slide-up'   : Slide up from below
-   - 'word-fade'  : Word by word fade in
-
+   BENTO BOX PORTFOLIO V2 - INTERACTIVE EFFECTS
    ============================================ */
 
-const animationStyle = 'fade-in';
-
-// The text to display in the intro
-const introText = "I'm Rui, a Product Designer";
-
-// Typing speed in milliseconds (lower = faster)
-const typingSpeed = 80;
-
 // ============================================
-// TYPING ANIMATION
+// CONFIGURATION
 // ============================================
 
-function initTypingAnimation() {
-    const typingElement = document.getElementById('typing-text');
-    const cursor = document.querySelector('.cursor');
-    let charIndex = 0;
+const config = {
+    // Roles for headline cycling
+    roles: ['Product Designer', 'Problem Solver', 'Design Hobbyist'],
+    roleChangeInterval: 3000,
+    typingSpeed: 80,
+    deletingSpeed: 50,
 
-    function type() {
-        if (charIndex < introText.length) {
-            typingElement.textContent += introText.charAt(charIndex);
-            charIndex++;
-            setTimeout(type, typingSpeed);
+    // Skills for physics cloud
+    skills: [
+        'Figma',
+        'Sketch',
+        'Adobe XD',
+        'Framer',
+        'Principle',
+        'InVision',
+        'Protopie',
+        'Miro',
+        'FigJam'
+    ],
+
+    // Magnetic effect settings
+    magneticStrength: 0.3,
+    magneticRadius: 100
+};
+
+// ============================================
+// DYNAMIC HEADLINE - TEXT SWAPPING
+// ============================================
+
+class HeadlineTyper {
+    constructor(element, roles) {
+        this.element = element;
+        this.roles = roles;
+        this.currentRoleIndex = 0;
+        this.currentText = '';
+        this.isDeleting = false;
+        this.isPaused = false;
+    }
+
+    start() {
+        this.currentText = this.roles[0];
+        this.element.textContent = this.currentText;
+        setTimeout(() => this.tick(), config.roleChangeInterval);
+    }
+
+    tick() {
+        const currentRole = this.roles[this.currentRoleIndex];
+
+        if (this.isDeleting) {
+            // Deleting text
+            this.currentText = currentRole.substring(0, this.currentText.length - 1);
         } else {
-            // Hide cursor after typing completes (optional)
-            // cursor.style.display = 'none';
+            // Typing text
+            this.currentText = currentRole.substring(0, this.currentText.length + 1);
+        }
+
+        this.element.textContent = this.currentText;
+
+        let nextDelay = this.isDeleting ? config.deletingSpeed : config.typingSpeed;
+
+        if (!this.isDeleting && this.currentText === currentRole) {
+            // Finished typing, pause before deleting
+            nextDelay = config.roleChangeInterval;
+            this.isDeleting = true;
+        } else if (this.isDeleting && this.currentText === '') {
+            // Finished deleting, move to next role
+            this.isDeleting = false;
+            this.currentRoleIndex = (this.currentRoleIndex + 1) % this.roles.length;
+            nextDelay = 300;
+        }
+
+        setTimeout(() => this.tick(), nextDelay);
+    }
+}
+
+// ============================================
+// PHYSICS-BASED SKILLS CLOUD (Matter.js)
+// ============================================
+
+class SkillsCloud {
+    constructor(container, skills) {
+        this.container = container;
+        this.skills = skills;
+        this.engine = null;
+        this.render = null;
+        this.bodies = [];
+        this.elements = [];
+    }
+
+    init() {
+        if (typeof Matter === 'undefined') {
+            console.warn('Matter.js not loaded, falling back to static display');
+            this.createStaticTags();
+            return;
+        }
+
+        const { Engine, World, Bodies, Mouse, MouseConstraint, Runner } = Matter;
+
+        // Get container dimensions
+        const rect = this.container.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+
+        // Create engine
+        this.engine = Engine.create();
+        this.engine.gravity.y = 0.3;
+
+        // Create walls
+        const wallThickness = 50;
+        const walls = [
+            // Bottom
+            Bodies.rectangle(width / 2, height + wallThickness / 2, width, wallThickness, { isStatic: true }),
+            // Top
+            Bodies.rectangle(width / 2, -wallThickness / 2, width, wallThickness, { isStatic: true }),
+            // Left
+            Bodies.rectangle(-wallThickness / 2, height / 2, wallThickness, height, { isStatic: true }),
+            // Right
+            Bodies.rectangle(width + wallThickness / 2, height / 2, wallThickness, height, { isStatic: true })
+        ];
+
+        World.add(this.engine.world, walls);
+
+        // Create skill bodies
+        this.skills.forEach((skill, index) => {
+            const tagWidth = skill.length * 8 + 24;
+            const tagHeight = 28;
+            const x = 30 + Math.random() * (width - 60);
+            const y = 20 + Math.random() * (height - 40);
+
+            const body = Bodies.rectangle(x, y, tagWidth, tagHeight, {
+                restitution: 0.6,
+                friction: 0.1,
+                frictionAir: 0.02,
+                chamfer: { radius: 14 }
+            });
+
+            // Add random initial velocity
+            Matter.Body.setVelocity(body, {
+                x: (Math.random() - 0.5) * 3,
+                y: (Math.random() - 0.5) * 3
+            });
+
+            this.bodies.push(body);
+            World.add(this.engine.world, body);
+
+            // Create DOM element
+            const element = document.createElement('div');
+            element.className = 'skill-tag';
+            element.textContent = skill;
+            if (index === 0) element.classList.add('highlight');
+            this.container.appendChild(element);
+            this.elements.push(element);
+        });
+
+        // Add mouse constraint for interaction
+        const mouse = Mouse.create(this.container);
+        const mouseConstraint = MouseConstraint.create(this.engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: { visible: false }
+            }
+        });
+        World.add(this.engine.world, mouseConstraint);
+
+        // Run the engine
+        const runner = Runner.create();
+        Runner.run(runner, this.engine);
+
+        // Update DOM positions
+        this.updatePositions();
+    }
+
+    updatePositions() {
+        this.bodies.forEach((body, index) => {
+            const element = this.elements[index];
+            const { x, y } = body.position;
+            const angle = body.angle;
+
+            element.style.left = `${x - element.offsetWidth / 2}px`;
+            element.style.top = `${y - element.offsetHeight / 2}px`;
+            element.style.transform = `rotate(${angle}rad)`;
+        });
+
+        requestAnimationFrame(() => this.updatePositions());
+    }
+
+    createStaticTags() {
+        // Fallback for when Matter.js is not available
+        const width = this.container.offsetWidth;
+        const height = this.container.offsetHeight;
+
+        this.skills.forEach((skill, index) => {
+            const element = document.createElement('div');
+            element.className = 'skill-tag';
+            element.textContent = skill;
+            if (index === 0) element.classList.add('highlight');
+
+            // Position randomly
+            const x = 10 + Math.random() * (width - 80);
+            const y = 10 + Math.random() * (height - 40);
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+
+            this.container.appendChild(element);
+        });
+    }
+}
+
+// ============================================
+// MAGNETIC HOVER EFFECT
+// ============================================
+
+class MagneticEffect {
+    constructor(elements) {
+        this.elements = elements;
+        this.boundHandlers = new Map();
+    }
+
+    init() {
+        this.elements.forEach(element => {
+            const handleMouseMove = (e) => this.onMouseMove(e, element);
+            const handleMouseLeave = () => this.onMouseLeave(element);
+
+            element.addEventListener('mousemove', handleMouseMove);
+            element.addEventListener('mouseleave', handleMouseLeave);
+
+            this.boundHandlers.set(element, { handleMouseMove, handleMouseLeave });
+        });
+    }
+
+    onMouseMove(e, element) {
+        const rect = element.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        const maxDistance = config.magneticRadius;
+
+        if (distance < maxDistance) {
+            const strength = (1 - distance / maxDistance) * config.magneticStrength;
+            const moveX = deltaX * strength;
+            const moveY = deltaY * strength;
+
+            element.style.transform = `translate(${moveX}px, ${moveY}px)`;
         }
     }
 
-    // Start typing after a brief delay
-    setTimeout(type, 500);
+    onMouseLeave(element) {
+        element.style.transform = 'translate(0, 0)';
+        element.style.transition = 'transform 0.3s ease-out';
+
+        setTimeout(() => {
+            element.style.transition = '';
+        }, 300);
+    }
 }
 
 // ============================================
-// FADE-IN ANIMATION
+// ZOOM NAVIGATION (Work Card -> Project Detail)
 // ============================================
 
-function initFadeInAnimation() {
-    const typingElement = document.getElementById('typing-text');
-    const cursor = document.querySelector('.cursor');
-
-    cursor.style.display = 'none';
-    typingElement.textContent = introText;
-    typingElement.style.opacity = '0';
-    typingElement.style.transition = 'opacity 0.8s ease';
-
-    setTimeout(() => {
-        typingElement.style.opacity = '1';
-    }, 300);
-}
-
-// ============================================
-// SLIDE-UP ANIMATION
-// ============================================
-
-function initSlideUpAnimation() {
-    const typingElement = document.getElementById('typing-text');
-    const cursor = document.querySelector('.cursor');
-
-    cursor.style.display = 'none';
-    typingElement.textContent = introText;
-    typingElement.style.opacity = '0';
-    typingElement.style.transform = 'translateY(30px)';
-    typingElement.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-
-    setTimeout(() => {
-        typingElement.style.opacity = '1';
-        typingElement.style.transform = 'translateY(0)';
-    }, 300);
-}
-
-// ============================================
-// WORD-BY-WORD FADE ANIMATION
-// ============================================
-
-function initWordFadeAnimation() {
-    const typingElement = document.getElementById('typing-text');
-    const cursor = document.querySelector('.cursor');
-
-    cursor.style.display = 'none';
-
-    const words = introText.split(' ');
-    typingElement.innerHTML = words.map((word, index) =>
-        `<span class="word" style="opacity: 0; transition: opacity 0.4s ease ${index * 0.15}s;">${word}</span>`
-    ).join(' ');
-
-    setTimeout(() => {
-        document.querySelectorAll('.word').forEach(word => {
-            word.style.opacity = '1';
-        });
-    }, 300);
-}
-
-// ============================================
-// SCRAMBLE (HACKER) ANIMATION
-// ============================================
-
-function initScrambleAnimation() {
-    const typingElement = document.getElementById('typing-text');
-    const cursor = document.querySelector('.cursor');
-
-    cursor.style.display = 'none';
-
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*';
-    const duration = 2000; // Total animation duration in ms
-    const frameRate = 30; // Updates per second
-    const totalFrames = (duration / 1000) * frameRate;
-
-    let frame = 0;
-    typingElement.style.fontFamily = 'inherit';
-
-    function scramble() {
-        const progress = frame / totalFrames;
-        const revealedLength = Math.floor(introText.length * progress);
-
-        let result = '';
-        for (let i = 0; i < introText.length; i++) {
-            if (introText[i] === ' ') {
-                result += ' ';
-            } else if (i < revealedLength) {
-                // Character is revealed
-                result += introText[i];
-            } else if (i < revealedLength + 3) {
-                // Characters being scrambled (rolling window)
-                result += chars[Math.floor(Math.random() * chars.length)];
-            } else {
-                // Characters not yet reached
-                result += '';
-            }
-        }
-
-        typingElement.textContent = result;
-        frame++;
-
-        if (frame <= totalFrames) {
-            requestAnimationFrame(scramble);
-        } else {
-            typingElement.textContent = introText;
-        }
+class ZoomNavigation {
+    constructor() {
+        this.bentoContainer = document.getElementById('bento-main');
+        this.projectDetailView = document.getElementById('project-detail-view');
+        this.backToHomeBtn = document.getElementById('back-to-home');
+        this.workCards = document.querySelectorAll('.work-card');
+        this.currentProjectId = null;
     }
 
-    // Start after a brief delay
-    setTimeout(scramble, 500);
-}
-
-// ============================================
-// SCROLL ANIMATIONS FOR CARDS
-// ============================================
-
-function initScrollAnimations() {
-    const cards = document.querySelectorAll('.project-card');
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                // Add staggered delay for each card
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, index * 150);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    cards.forEach(card => observer.observe(card));
-}
-
-// ============================================
-// SMOOTH HOVER EFFECTS
-// ============================================
-
-function initHoverEffects() {
-    const cards = document.querySelectorAll('.project-card');
-
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-8px) scale(1.01)';
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-}
-
-// ============================================
-// PARALLAX EFFECT FOR GRADIENT ORBS
-// ============================================
-
-function initParallaxEffect() {
-    const orbs = document.querySelectorAll('.gradient-orb');
-
-    if (orbs.length === 0) return;
-
-    document.addEventListener('mousemove', (e) => {
-        const mouseX = e.clientX / window.innerWidth - 0.5;
-        const mouseY = e.clientY / window.innerHeight - 0.5;
-
-        orbs.forEach((orb, index) => {
-            const speed = (index + 1) * 20;
-            const x = mouseX * speed;
-            const y = mouseY * speed;
-            orb.style.transform = `translate(${x}px, ${y}px)`;
-        });
-    });
-}
-
-// ============================================
-// SMOOTH SCROLL FOR ANCHOR LINKS
-// ============================================
-
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const href = this.getAttribute('href');
-            const targetId = href.substring(1);
-
-            // Calculate scroll position based on the stacking layout
-            const heroSpacer = document.querySelector('.hero-spacer');
-            const projectsWrapper = document.querySelector('.projects-wrapper');
-            const projectsSection = document.querySelector('#projects');
-            const aboutSection = document.querySelector('#about');
-
-            let scrollTarget = 0;
-
-            if (targetId === 'projects' && heroSpacer) {
-                // Scroll to where projects section becomes fully visible
-                scrollTarget = heroSpacer.offsetTop + heroSpacer.offsetHeight;
-            } else if (targetId === 'about' && projectsWrapper) {
-                // Scroll to where about section starts
-                scrollTarget = projectsWrapper.offsetTop + projectsWrapper.offsetHeight;
-            }
-
-            window.scrollTo({
-                top: scrollTarget,
-                behavior: 'smooth'
+    init() {
+        // Work card click -> Show project detail directly
+        this.workCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const projectId = card.dataset.project;
+                this.showProjectDetail(projectId);
             });
         });
-    });
+
+        // Back to home button
+        this.backToHomeBtn.addEventListener('click', () => this.showHome());
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.projectDetailView.classList.contains('active')) {
+                this.showHome();
+            }
+        });
+    }
+
+    showProjectDetail(projectId) {
+        this.currentProjectId = projectId;
+        this.bentoContainer.classList.add('zoomed-out');
+
+        setTimeout(() => {
+            // Here you could load different content based on projectId
+            this.projectDetailView.classList.add('active');
+        }, 300);
+    }
+
+    showHome() {
+        this.projectDetailView.classList.remove('active');
+
+        setTimeout(() => {
+            this.bentoContainer.classList.remove('zoomed-out');
+        }, 300);
+    }
 }
 
 // ============================================
-// HIDE SCROLL INDICATOR ON SCROLL
+// AVATAR PARALLAX EFFECT
 // ============================================
 
-function initScrollIndicatorHide() {
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (!scrollIndicator) return;
+class AvatarParallax {
+    constructor(element) {
+        this.element = element;
+        this.image = element.querySelector('.avatar-image');
+    }
 
-    let hasScrolled = false;
+    init() {
+        this.element.addEventListener('mousemove', (e) => this.onMouseMove(e));
+        this.element.addEventListener('mouseleave', () => this.onMouseLeave());
+    }
 
-    window.addEventListener('scroll', () => {
-        if (!hasScrolled && window.scrollY > 100) {
-            hasScrolled = true;
-            scrollIndicator.style.opacity = '0';
-            scrollIndicator.style.transition = 'opacity 0.5s ease';
-        }
-    });
-}
+    onMouseMove(e) {
+        const rect = this.element.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
 
-// ============================================
-// NAVIGATION GLASS EFFECT ON SCROLL
-// ============================================
+        const deltaX = (e.clientX - centerX) / rect.width;
+        const deltaY = (e.clientY - centerY) / rect.height;
 
-function initNavScrollEffect() {
-    const nav = document.querySelector('.nav');
-    if (!nav) return;
+        const rotateX = deltaY * 10;
+        const rotateY = deltaX * -10;
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    });
-}
+        this.image.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+    }
 
-// ============================================
-// STACKING/DRAWER SCROLL EFFECT
-// ============================================
+    onMouseLeave() {
+        this.image.style.transform = '';
+        this.image.style.transition = 'transform 0.5s ease-out';
 
-function initStackingEffect() {
-    const sections = document.querySelectorAll('.stacking-section');
-    if (sections.length === 0) return;
-
-    const heroSection = document.querySelector('.stacking-section[data-stack-order="1"]');
-    const heroSpacer = document.querySelector('.hero-spacer');
-    const projectsSection = document.querySelector('.stacking-section[data-stack-order="2"]');
-    const projectsWrapper = document.querySelector('.projects-wrapper');
-    const projectsSpacer = document.querySelector('.projects-scroll-spacer');
-
-    if (projectsSection && projectsSpacer && heroSpacer && projectsWrapper) {
-        // Cache layout values to avoid reading on every scroll
-        let cachedValues = {};
-        let ticking = false;
-
-        const updateCachedValues = () => {
-            cachedValues = {
-                viewportHeight: window.innerHeight,
-                heroSpacerTop: heroSpacer.offsetTop,
-                heroSpacerBottom: heroSpacer.offsetTop + heroSpacer.offsetHeight,
-                projectsHeight: projectsSection.offsetHeight,
-                wrapperTop: projectsWrapper.offsetTop,
-                wrapperBottom: projectsWrapper.offsetTop + projectsWrapper.offsetHeight
-            };
-        };
-
-        const updateLayout = () => {
-            const projectsHeight = projectsSection.offsetHeight;
-            projectsSpacer.style.height = projectsHeight + 'px';
-            updateCachedValues();
-        };
-
-        // Update on load, resize, and after images load
-        updateLayout();
-        window.addEventListener('resize', updateLayout);
-        window.addEventListener('load', updateLayout);
-
-        const updateScroll = () => {
-            const scrollY = window.scrollY;
-            const { viewportHeight, heroSpacerTop, heroSpacerBottom, projectsHeight, wrapperBottom } = cachedValues;
-
-            // Phase 1: Hero visible, Projects not yet appearing
-            if (scrollY < heroSpacerTop) {
-                projectsSection.style.transform = 'translateY(100vh)';
-                projectsSection.classList.remove('visible');
-            }
-            // Phase 2: Scrolling through hero spacer - Projects slides up from bottom
-            else if (scrollY >= heroSpacerTop && scrollY < heroSpacerBottom) {
-                const progress = (scrollY - heroSpacerTop) / viewportHeight;
-                const slideUp = viewportHeight * (1 - progress);
-                projectsSection.style.transform = `translateY(${slideUp}px)`;
-                projectsSection.classList.add('visible');
-            }
-            // Phase 3: Scrolling through projects wrapper - scroll through projects content
-            else if (scrollY >= heroSpacerBottom && scrollY < wrapperBottom) {
-                const scrollInWrapper = scrollY - heroSpacerBottom;
-                const maxScroll = Math.max(0, projectsHeight - viewportHeight);
-                const scrollProgress = Math.min(scrollInWrapper, maxScroll);
-                projectsSection.style.transform = `translateY(-${scrollProgress}px)`;
-                projectsSection.classList.add('visible');
-            }
-            // Phase 4: Past projects wrapper - keep at final position
-            else if (scrollY >= wrapperBottom) {
-                const maxScroll = Math.max(0, projectsHeight - viewportHeight);
-                projectsSection.style.transform = `translateY(-${maxScroll}px)`;
-                projectsSection.classList.add('visible');
-            }
-
-            ticking = false;
-        };
-
-        // Handle scroll with requestAnimationFrame for smooth performance
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateScroll);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        // Trigger initial scroll calculation
-        updateScroll();
-
-        // Update active nav link based on scroll position
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        function updateNavActiveState() {
-            const scrollY = window.scrollY;
-            const heroSpacerBottom = heroSpacer.offsetTop + heroSpacer.offsetHeight;
-            const projectsWrapperBottom = projectsWrapper.offsetTop + projectsWrapper.offsetHeight;
-
-            // Clear all active states first
-            navLinks.forEach(link => link.classList.remove('active'));
-
-            // Determine which section is active based on scroll position
-            if (scrollY < heroSpacerBottom - 100) {
-                // In hero section - no active state
-            } else if (scrollY < projectsWrapperBottom - 100) {
-                // In projects section
-                const projectsLink = document.querySelector('.nav-link[href="#projects"]');
-                if (projectsLink) projectsLink.classList.add('active');
-            } else {
-                // In about section
-                const aboutLink = document.querySelector('.nav-link[href="#about"]');
-                if (aboutLink) aboutLink.classList.add('active');
-            }
-        }
-
-        // Update on scroll
-        window.addEventListener('scroll', updateNavActiveState, { passive: true });
-        // Initial update
-        updateNavActiveState();
+        setTimeout(() => {
+            this.image.style.transition = '';
+        }, 500);
     }
 }
 
@@ -420,42 +363,75 @@ function initStackingEffect() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize intro animation based on style
-    switch (animationStyle) {
-        case 'scramble':
-            initScrambleAnimation();
-            break;
-        case 'typing':
-            initTypingAnimation();
-            break;
-        case 'fade-in':
-            initFadeInAnimation();
-            break;
-        case 'slide-up':
-            initSlideUpAnimation();
-            break;
-        case 'word-fade':
-            initWordFadeAnimation();
-            break;
-        default:
-            initScrambleAnimation();
-    }
+    // Initialize Masonry for Pinterest layout
+    const bentoContainer = document.getElementById('bento-main');
+    if (bentoContainer && typeof Masonry !== 'undefined') {
+        const msnry = new Masonry(bentoContainer, {
+            itemSelector: '.bento-card',
+            columnWidth: '.bento-card:not(.footer-card)',
+            percentPosition: true,
+            gutter: 14
+        });
 
-    // Initialize other animations
-    initScrollAnimations();
-    initParallaxEffect();
-    initSmoothScroll();
-    initScrollIndicatorHide();
-    initNavScrollEffect();
-    initStackingEffect();
-
-    // Make cards visible immediately if they're in viewport on load
-    setTimeout(() => {
-        document.querySelectorAll('.project-card').forEach((card, index) => {
-            const rect = card.getBoundingClientRect();
-            if (rect.top < window.innerHeight) {
-                setTimeout(() => card.classList.add('visible'), index * 150);
+        // Re-layout after images load
+        const images = bentoContainer.querySelectorAll('img');
+        let loadedImages = 0;
+        images.forEach(img => {
+            if (img.complete) {
+                loadedImages++;
+            } else {
+                img.addEventListener('load', () => {
+                    loadedImages++;
+                    if (loadedImages === images.length) {
+                        msnry.layout();
+                    }
+                });
             }
         });
-    }, 100);
+    }
+
+    // Initialize headline typer
+    const roleTextElement = document.getElementById('role-text');
+    if (roleTextElement) {
+        const headlineTyper = new HeadlineTyper(roleTextElement, config.roles);
+        headlineTyper.start();
+    }
+
+    // Initialize skills cloud
+    const skillsCloudContainer = document.getElementById('skills-cloud');
+    if (skillsCloudContainer) {
+        const skillsCloud = new SkillsCloud(skillsCloudContainer, config.skills);
+        skillsCloud.init();
+    }
+
+    // Initialize magnetic effect on contact links
+    const magneticLinks = document.querySelectorAll('.magnetic-link');
+    if (magneticLinks.length > 0) {
+        const magneticEffect = new MagneticEffect(magneticLinks);
+        magneticEffect.init();
+    }
+
+    // Initialize zoom navigation
+    const zoomNav = new ZoomNavigation();
+    zoomNav.init();
+
+    // Initialize avatar parallax
+    const avatarElement = document.querySelector('.hero-avatar');
+    if (avatarElement) {
+        const avatarParallax = new AvatarParallax(avatarElement);
+        avatarParallax.init();
+    }
+
+    // Add initial animation class to cards
+    const bentoCards = document.querySelectorAll('.bento-card');
+    bentoCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100 + index * 80);
+    });
 });

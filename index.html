@@ -10,251 +10,154 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="stacking-page">
-    <!-- Navigation -->
-    <nav class="nav">
-        <a href="index.html" class="nav-logo">Rui</a>
-        <div class="nav-links">
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#about" class="nav-link">About</a>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero stacking-section" data-stack-order="1">
-        <div class="hero-background">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-text">
-                <p class="greeting">Hello.</p>
-                <h1 class="intro">
-                    <span class="typing-text" id="typing-text"></span>
-                    <span class="cursor">|</span>
-                </h1>
-                <p class="description">Focus on B2B SaaS products with 7 years of experience driving end-to-end design.</p>
-                <div class="hero-cta">
-                    <a href="#projects" class="cta-button primary">View My Work</a>
-                    <a href="#about" class="cta-button secondary">About Me</a>
-                </div>
-            </div>
-            <div class="hero-avatar">
-                <img src="images/IMG_1607.jpeg" alt="Rui" class="avatar-image">
-                <div class="avatar-ring"></div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <span>Scroll to explore</span>
-        </div>
-    </section>
-
-    <!-- Spacer for fixed hero -->
-    <div class="hero-spacer"></div>
-
-    <!-- Projects Wrapper -->
-    <div class="projects-wrapper">
-        <!-- Projects Section -->
-        <section class="projects stacking-section" id="projects" data-stack-order="2">
-            <div class="projects-grid">
-                <!-- Card 1 -->
-                <a href="projects/project1.html" class="project-card card-1">
-                    <div class="card-content">
-                        <p class="card-company">Amobee</p>
-                        <h2 class="card-title">Audience Builder</h2>
-                        <p class="card-description">Redesigning the audience creation experience for digital advertisers.</p>
-                    </div>
-                    <div class="card-image">
-                        <div class="placeholder-image">
-                            <span>Project Preview</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Card 2 -->
-                <a href="projects/project2.html" class="project-card card-2">
-                    <div class="card-content">
-                        <p class="card-company">Amazon</p>
-                        <h2 class="card-title">Experiment Decision Reporting</h2>
-                        <p class="card-description">Building data-driven decision tools for experimentation teams.</p>
-                    </div>
-                    <div class="card-image">
-                        <div class="placeholder-image">
-                            <span>Project Preview</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Card 3 -->
-                <a href="projects/project3.html" class="project-card card-3">
-                    <div class="card-content">
-                        <p class="card-company">Palo Alto Networks</p>
-                        <h2 class="card-title">Integration Experience</h2>
-                        <p class="card-description">Streamlining security integrations for enterprise customers.</p>
-                    </div>
-                    <div class="card-image">
-                        <div class="placeholder-image">
-                            <span>Project Preview</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </section>
-        <!-- Scroll spacer for projects -->
-        <div class="projects-scroll-spacer"></div>
-    </div>
-
-    <!-- About Section -->
-    <section class="about-page-section stacking-section" id="about" data-stack-order="3">
-        <!-- About Hero -->
-        <div class="about-hero">
-            <div class="about-hero-content">
-                <div class="about-avatar">
+<body class="bento-page">
+    <!-- Main Bento Grid - Pinterest Layout -->
+    <!-- Left column: Hero, Work 1, Work 3 -->
+    <!-- Right column: About, Work 2, Skills -->
+    <main class="bento-container" id="bento-main">
+        <!-- Hero Card -->
+        <section class="bento-card hero-card">
+            <div class="hero-content">
+                <div class="hero-avatar">
                     <img src="images/IMG_1607.jpeg" alt="Rui" class="avatar-image">
                     <div class="avatar-ring"></div>
                 </div>
-                <h1 class="about-title">
-                    <span class="title-line">Designer.</span>
-                    <span class="title-line">Problem Solver.</span>
-                    <span class="title-line">Storyteller.</span>
-                </h1>
+                <div class="hero-text">
+                    <p class="greeting">Hello, I'm Rui</p>
+                    <h1 class="headline">
+                        A <span class="role-text" id="role-text">Product Designer</span>
+                        <span class="cursor">|</span>
+                    </h1>
+                    <p class="tagline">Focus on B2B SaaS products with 7 years of experience driving end-to-end design.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me Card -->
+        <section class="bento-card about-card">
+            <h2 class="card-label">About Me</h2>
+            <div class="about-content">
+                <p>I'm a product designer with 7 years of experience crafting digital experiences for B2B SaaS companies.</p>
+                <p>I believe great design happens at the intersection of user needs, business goals, and technical feasibility.</p>
+                <div class="about-highlights">
+                    <div class="highlight">
+                        <span class="highlight-number">7+</span>
+                        <span class="highlight-label">Years</span>
+                    </div>
+                    <div class="highlight">
+                        <span class="highlight-number">50+</span>
+                        <span class="highlight-label">Products</span>
+                    </div>
+                    <div class="highlight">
+                        <span class="highlight-number">10M+</span>
+                        <span class="highlight-label">Users</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work 1: Amobee -->
+        <section class="bento-card work-card work-1" data-project="1">
+            <div class="work-image">
+                <img src="https://placehold.co/600x400/e8e0f0/667eea?text=Amobee+Project" alt="Amobee Project">
+            </div>
+            <div class="work-card-content">
+                <p class="work-company">Amobee</p>
+                <h3 class="work-title">Audience Builder</h3>
+                <p class="work-desc">Redesigning the audience creation experience for digital advertisers.</p>
+                <span class="work-cta">View Project →</span>
+            </div>
+        </section>
+
+        <!-- Work 3: Palo Alto Networks -->
+        <section class="bento-card work-card work-3" data-project="3">
+            <div class="work-image">
+                <img src="https://placehold.co/600x400/e0f0f0/a5c4d4?text=Palo+Alto+Project" alt="Palo Alto Project">
+            </div>
+            <div class="work-card-content">
+                <p class="work-company">Palo Alto Networks</p>
+                <h3 class="work-title">Integration Experience</h3>
+                <p class="work-desc">Streamlining security integrations for enterprise customers.</p>
+                <span class="work-cta">View Project →</span>
+            </div>
+        </section>
+
+        <!-- Work 2: Amazon -->
+        <section class="bento-card work-card work-2" data-project="2">
+            <div class="work-image">
+                <img src="https://placehold.co/600x400/f0e0e8/d4a5c9?text=Amazon+Project" alt="Amazon Project">
+            </div>
+            <div class="work-card-content">
+                <p class="work-company">Amazon</p>
+                <h3 class="work-title">Experiment Reporting</h3>
+                <p class="work-desc">Building data-driven decision tools for experimentation teams.</p>
+                <span class="work-cta">View Project →</span>
+            </div>
+        </section>
+
+        <!-- Skills Cloud Card -->
+        <section class="bento-card skills-card">
+            <h2 class="card-label">Skills</h2>
+            <div class="skills-cloud" id="skills-cloud">
+                <!-- Physics-based skill tags will be rendered here -->
+            </div>
+        </section>
+
+        <!-- Footer Card -->
+        <section class="bento-card footer-card">
+            <div class="footer-content">
+                <h2>Let's Connect</h2>
+                <div class="contact-links">
+                    <a href="https://linkedin.com/in/ivywang07/" class="magnetic-link" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect x="2" y="9" width="4" height="12"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="resume/resume.pdf" download class="magnetic-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                        <span>Resume</span>
+                    </a>
+                    <a href="mailto:rwux07@gmail.com" class="magnetic-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <span>Email</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Project Detail View (Hidden by default) -->
+    <div class="project-detail-view" id="project-detail-view">
+        <button class="back-button" id="back-to-home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Home
+        </button>
+        <div class="project-detail-content" id="project-detail-content">
+            <!-- Project detail content will be loaded here -->
+            <div class="project-placeholder">
+                <h2>Project Details Coming Soon</h2>
+                <p>Content will be provided by user.</p>
             </div>
         </div>
+    </div>
 
-        <!-- About Content -->
-        <div class="about-content">
-            <div class="about-grid">
-                <!-- Bio Card -->
-                <div class="about-card bio-card">
-                    <h2>Hi, I'm Rui</h2>
-                    <p>I'm a product designer with 7 years of experience crafting digital experiences for B2B SaaS companies. I believe great design happens at the intersection of user needs, business goals, and technical feasibility.</p>
-                    <p>Currently based in the Bay Area, I've had the privilege of working with teams at <strong>Palo Alto Networks</strong>, <strong>Amazon</strong>, and <strong>Amobee</strong> to ship products that millions of users rely on every day.</p>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-number">7+</span>
-                        <span class="stat-label">Years of Experience</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">50+</span>
-                        <span class="stat-label">Products Shipped</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">3</span>
-                        <span class="stat-label">Fortune 500 Companies</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">10M+</span>
-                        <span class="stat-label">Users Impacted</span>
-                    </div>
-                </div>
-
-                <!-- Skills Section -->
-                <div class="about-card skills-card">
-                    <h2>What I Do</h2>
-                    <div class="skills-list">
-                        <div class="skill-item">
-                            <div class="skill-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                    <path d="M3 9h18"/>
-                                    <path d="M9 21V9"/>
-                                </svg>
-                            </div>
-                            <div class="skill-text">
-                                <h3>Product Design</h3>
-                                <p>End-to-end design from research to polished interfaces</p>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M12 6v6l4 2"/>
-                                </svg>
-                            </div>
-                            <div class="skill-text">
-                                <h3>Design Systems</h3>
-                                <p>Building scalable, consistent component libraries</p>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                                </svg>
-                            </div>
-                            <div class="skill-text">
-                                <h3>User Research</h3>
-                                <p>Uncovering insights through interviews and testing</p>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="16,18 22,12 16,6"/>
-                                    <polyline points="8,6 2,12 8,18"/>
-                                </svg>
-                            </div>
-                            <div class="skill-text">
-                                <h3>Prototyping</h3>
-                                <p>Interactive prototypes to validate ideas quickly</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Philosophy Card -->
-                <div class="about-card philosophy-card">
-                    <div class="quote-mark">"</div>
-                    <blockquote>
-                        Design is not just what it looks like and feels like. Design is how it works.
-                    </blockquote>
-                    <p class="philosophy-text">I approach every project with curiosity and empathy. My goal is to create experiences that feel intuitive, look beautiful, and solve real problems for real people.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer-dark">
-            <div class="footer-contact">
-                <a href="https://linkedin.com/in/ivywang07/" class="footer-item" target="_blank">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                        <rect x="2" y="9" width="4" height="12"/>
-                        <circle cx="4" cy="4" r="2"/>
-                    </svg>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="resume/resume.pdf" download class="footer-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                        <polyline points="10 9 9 9 8 9"/>
-                    </svg>
-                    <span>Download Resume</span>
-                </a>
-                <a href="mailto:rwux07@gmail.com" class="footer-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                    <span>rwux07@gmail.com</span>
-                </a>
-            </div>
-        </footer>
-    </section>
-
+    <!-- Matter.js for physics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <!-- Masonry.js for Pinterest layout -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
