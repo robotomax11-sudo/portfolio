@@ -55,8 +55,8 @@ function initTextSwapAnimation() {
     let isDeleting = false;
     let currentRole = roles[roleIndex];
 
-    // Set up the static part and role container
-    typingElement.innerHTML = `<span class="static-text">${introStatic}</span><span class="role-text"></span>`;
+    // Set up role container (static text "I'm Rui," is now in HTML)
+    typingElement.innerHTML = `<span class="role-text"></span>`;
     const roleElement = typingElement.querySelector('.role-text');
 
     function type() {
