@@ -880,7 +880,7 @@ a {
 /* Contact Footer */
 .footer-dark {
     background: var(--background);
-    padding: 60px 10%;
+    padding: 30px 10%;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -888,7 +888,7 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 80px;
+    gap: 50px;
     flex-wrap: wrap;
 }
 
