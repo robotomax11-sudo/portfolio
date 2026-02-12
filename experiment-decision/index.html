@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment Decision Reporting | Rui - Product Designer</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f9fa;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .nav-logo:hover {
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #666;
+            padding: 10px 20px;
+            border-radius: 24px;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: #1a1a1a;
+        }
+
+        /* Main content area */
+        .content-area {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        /* Loader */
+        #loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            z-index: 100;
+        }
+
+        /* Morphing cube loader */
+        .cube-container {
+            width: 80px;
+            height: 80px;
+            perspective: 200px;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 3s ease-in-out infinite;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            left: 10px;
+            top: 10px;
+            border-radius: 12px;
+            opacity: 0.9;
+        }
+
+        .face-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: rotateY(0deg) translateZ(30px);
+        }
+
+        .face-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: rotateY(90deg) translateZ(30px);
+        }
+
+        .face-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            transform: rotateY(180deg) translateZ(30px);
+        }
+
+        .face-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            transform: rotateY(270deg) translateZ(30px);
+        }
+
+        @keyframes rotateCube {
+            0%, 100% {
+                transform: rotateX(-20deg) rotateY(0deg);
+            }
+            25% {
+                transform: rotateX(-20deg) rotateY(90deg);
+            }
+            50% {
+                transform: rotateX(-20deg) rotateY(180deg);
+            }
+            75% {
+                transform: rotateX(-20deg) rotateY(270deg);
+            }
+        }
+
+        .loader-text {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .loader-dots {
+            display: inline-flex;
+            gap: 2px;
+        }
+
+        .loader-dots span {
+            animation: dotPulse 1.4s ease-in-out infinite;
+        }
+
+        .loader-dots span:nth-child(1) { animation-delay: 0s; }
+        .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotPulse {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+
+        /* Iframe */
+        #figmaFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+
+        #figmaFrame.loaded {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <a href="../" class="nav-logo">Rui</a>
+        <div class="nav-links">
+            <a href="../#projects" class="nav-link active">Projects</a>
+            <a href="../about.html" class="nav-link">About</a>
+        </div>
+    </nav>
+
+    <div class="content-area">
+        <div id="loader">
+            <div class="cube-container">
+                <div class="cube">
+                    <div class="cube-face face-1"></div>
+                    <div class="cube-face face-2"></div>
+                    <div class="cube-face face-3"></div>
+                    <div class="cube-face face-4"></div>
+                </div>
+            </div>
+            <p class="loader-text">Loading prototype<span class="loader-dots"><span>.</span><span>.</span><span>.</span></span></p>
+        </div>
+        <iframe
+            id="figmaFrame"
+            src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2F3cCGa0my1RQRLvUQdY265M%2FRui-s-projects%3Fpage-id%3D2%253A2971%26node-id%3D2-4224%26p%3Df%26viewport%3D522%252C108%252C0.06%26t%3DTQQ4GvpJqbbLV1UB-1%26scaling%3Dscale-down-width%26content-scaling%3Dfixed%26hide-ui%3D1"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <script>
+        var iframe = document.getElementById('figmaFrame');
+        var loader = document.getElementById('loader');
+        var loaderText = document.querySelector('.loader-text');
+
+        // Show iframe immediately (behind loader) so it can load
+        iframe.style.display = 'block';
+        iframe.style.opacity = '0';
+
+        iframe.onload = function() {
+            console.log('Figma iframe loaded');
+            setTimeout(function() {
+                loader.style.display = 'none';
+                iframe.style.opacity = '1';
+            }, 500);
+        };
+
+        // Fallback: if not loaded after 15 seconds, show anyway
+        setTimeout(function() {
+            if (loader.style.display !== 'none') {
+                loaderText.textContent = 'Still loading...';
+            }
+        }, 5000);
+
+        setTimeout(function() {
+            if (loader.style.display !== 'none') {
+                console.log('Fallback: showing iframe after timeout');
+                loader.style.display = 'none';
+                iframe.style.opacity = '1';
+            }
+        }, 15000);
+    </script>
+
+</body>
+</html>
