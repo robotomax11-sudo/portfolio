@@ -21,14 +21,18 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html {
             height: 100%;
-            overflow: hidden;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f8f9fa;
         }
 
-        /* Navigation */
+        body {
+            min-height: 100%;
+            overflow-x: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #333;
+        }
+
+        /* Navigation - Always glass effect */
         .nav {
             position: fixed;
             top: 0;
@@ -51,6 +55,7 @@
             font-weight: 700;
             color: #1a1a1a;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
 
         .nav-logo:hover {
@@ -69,6 +74,7 @@
             padding: 10px 20px;
             border-radius: 24px;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .nav-link:hover {
@@ -89,6 +95,7 @@
             right: 0;
             bottom: 0;
             padding-top: 70px;
+            overflow: hidden;
         }
 
         /* Loader */
@@ -142,25 +149,23 @@
             font-weight: 400;
         }
 
-        /* Iframe - positioned to extend behind glass nav */
+        /* Iframe - positioned below nav, extended to crop white space */
         #figmaFrame {
             position: absolute;
-            top: -70px;
+            top: 0;
             left: 0;
             width: 100%;
-            height: calc(100% + 70px);
+            height: calc(100% + 60px);
             border: none;
             display: none;
             z-index: 1;
         }
 
-        .content-area {
-            overflow: hidden;
-        }
-
         #figmaFrame.loaded {
             display: block;
         }
+
+
     </style>
 </head>
 <body>
