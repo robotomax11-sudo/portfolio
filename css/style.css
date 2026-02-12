@@ -354,6 +354,21 @@ a {
     background-clip: text;
 }
 
+/* Text swap animation styles */
+.typing-text .static-text {
+    background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.typing-text .role-text {
+    background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .cursor {
     display: inline-block;
     color: var(--accent);
