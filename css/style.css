@@ -164,7 +164,8 @@ body {
 }
 
 /* Re-enable pointer events for projects content */
-.stacking-section[data-stack-order="2"] .projects-grid {
+.stacking-section[data-stack-order="2"] .projects-grid,
+.stacking-section[data-stack-order="2"] .footer-dark {
     pointer-events: auto;
 }
 
