@@ -548,3 +548,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+/* ============================================
+   CUSTOM CURSOR - Project Cards
+   ============================================ */
+(function() {
+    const cursor = document.getElementById('customCursor');
+    if (!cursor) return;
+
+    const cards = document.querySelectorAll('.project-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            cursor.classList.add('visible');
+        });
+
+        card.addEventListener('mouseleave', () => {
+            cursor.classList.remove('visible');
+        });
+
+        card.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+    });
+})();
