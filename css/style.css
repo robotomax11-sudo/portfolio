@@ -907,6 +907,14 @@ a {
     border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+.about-footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
 .footer-contact {
     display: flex;
     justify-content: center;
@@ -1734,6 +1742,250 @@ a {
 
     .footer-item {
         font-size: 0.9rem;
+    }
+}
+
+/* ============================================
+   ABOUT SPLIT LAYOUT (Photo Left / Text Right)
+   ============================================ */
+.about-standalone .about-page-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.about-split-layout {
+    display: flex;
+    width: 50%;
+    align-items: stretch;
+}
+
+.about-split-photo {
+    width: 50%;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.about-split-photo-inner {
+    width: 100%;
+    height: 100%;
+}
+
+.about-split-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+}
+
+.about-split-content {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 8%;
+    box-sizing: border-box;
+}
+
+.about-split-inner {
+    max-width: 520px;
+    width: 100%;
+}
+
+.about-split-name {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 28px;
+    line-height: 1.2;
+}
+
+.about-split-bio p {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.about-split-bio p:last-child {
+    margin-bottom: 0;
+}
+
+.about-split-bio strong {
+    color: var(--text-primary);
+}
+
+.about-lets-talk {
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 2px solid currentColor;
+    transition: opacity 0.2s ease;
+}
+
+.about-lets-talk:hover {
+    opacity: 0.7;
+}
+
+/* Stats row */
+.about-split-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.about-split-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.about-split-stat-num {
+    font-size: 1.75rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.about-split-stat-label {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+/* Skills */
+.about-split-skills {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.about-split-skill {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.about-split-skill-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.about-split-skill-icon svg {
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+}
+
+.about-split-skill h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.about-split-skill p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Quote */
+.about-split-quote {
+    margin-top: 40px;
+    padding: 32px 36px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-split-quote::before {
+    content: '"';
+    font-size: 8rem;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0.15;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    pointer-events: none;
+}
+
+.about-split-quote blockquote {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.about-split-quote p {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .about-split-layout {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .about-split-photo {
+        width: 100%;
+        height: 50vw;
+        max-height: 360px;
+    }
+
+    .about-split-content {
+        width: 100%;
+        height: auto;
+        padding: 40px 8%;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-split-photo {
+        height: 65vw;
+    }
+
+    .about-split-content {
+        padding: 32px 6%;
+    }
+
+    .about-split-inner {
+        max-width: 100%;
     }
 }
 
