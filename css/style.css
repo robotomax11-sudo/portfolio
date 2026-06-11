@@ -309,19 +309,19 @@ a {
 
 
 .hero-content {
-    max-width: 1100px;
+    max-width: 1080px;
     width: 100%;
     position: relative;
     z-index: 1;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 60px;
+    justify-content: center;
+    gap: clamp(48px, 6vw, 96px);
 }
 
 .hero-text {
     flex: 1;
-    max-width: 600px;
+    max-width: 650px;
 }
 
 .hero-avatar {
@@ -363,18 +363,31 @@ a {
 }
 
 .intro {
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(25px, calc(3.5vw - 4px), 42px);
     font-weight: 700;
     margin-bottom: 24px;
     line-height: 1.2;
     min-height: 1.2em;
 }
 
+.intro-greeting {
+    display: inline-block;
+    font-size: 45px;
+}
+
+.intro-static,
+.intro-greeting,
 .typing-text {
-    background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    white-space: nowrap;
+}
+
+.typing-text {
+    color: var(--text-primary);
+}
+
+.typing-prefix {
+    color: var(--text-primary);
+    -webkit-text-fill-color: var(--text-primary);
 }
 
 /* Text swap animation styles */
@@ -406,7 +419,9 @@ a {
 
 .description {
     font-size: 1.25rem;
-    color: var(--text-secondary);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    color: #444;
     max-width: 600px;
     opacity: 0;
     animation: fadeInUp 0.6s ease 0.3s forwards;
@@ -647,11 +662,19 @@ a {
 }
 
 .card-title {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     margin-bottom: 16px;
     line-height: 1.2;
     color: var(--text-primary);
+}
+
+.nowrap-title {
+    white-space: nowrap;
+}
+
+.card-2 .card-title {
+    font-size: 26px;
 }
 
 .card-description {
@@ -695,6 +718,16 @@ a {
 
 .card-2 .card-image img {
     max-height: 290px;
+}
+
+.card-3 .card-title {
+    font-size: 26px;
+}
+
+.card-3 .card-image {
+    justify-content: flex-end;
+    padding-left: 56px;
+    padding-right: 12px;
 }
 
 .placeholder-image {
@@ -1076,6 +1109,12 @@ a {
 
     .hero-text {
         max-width: 100%;
+    }
+
+    .intro-static,
+    .intro-greeting,
+    .typing-text {
+        white-space: normal;
     }
 
     .hero-avatar {

@@ -22,13 +22,13 @@ const introStatic = "I'm Rui, ";
 
 // Roles to cycle through
 const roles = [
-    "a Product Designer",
-    "a Problem Solver",
-    "a Design Hobbyist"
+    "turn complexity into clarity.",
+    "find direction in ambiguity.",
+    "bring vision to life."
 ];
 
 // The text to display in the intro (used by other animation styles)
-const introText = "I'm Rui, a Product Designer";
+const introText = "I'm Rui, I turn complexity into clarity.";
 
 // Typing speed in milliseconds (lower = faster)
 const typingSpeed = 80;
@@ -56,7 +56,7 @@ function initTextSwapAnimation() {
     let currentRole = roles[roleIndex];
 
     // Set up role container (static text "I'm Rui," is now in HTML)
-    typingElement.innerHTML = `<span class="role-text"></span>`;
+    typingElement.innerHTML = `<span class="typing-prefix">I </span><span class="role-text"></span>`;
     const roleElement = typingElement.querySelector('.role-text');
 
     function type() {
