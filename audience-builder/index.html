@@ -183,7 +183,7 @@
             <div class="progress-container">
                 <div class="progress-bar"></div>
             </div>
-            <p class="loader-text">Loading prototype</p>
+            <p class="loader-text">Loading...</p>
         </div>
         <iframe
             id="figmaFrame"
@@ -212,7 +212,7 @@
         // Fallback: if not loaded after 15 seconds, show anyway
         setTimeout(function() {
             if (loader.style.display !== 'none') {
-                loaderText.textContent = 'Still loading...';
+                loaderText.textContent = 'Loading...';
             }
         }, 5000);
 
