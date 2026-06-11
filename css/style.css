@@ -2019,3 +2019,373 @@ a {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
 }
+
+/* ============================================
+   ABOUT NEW DRAFT
+   ============================================ */
+.about-new-page {
+    --about-new-ink: #2f2f3a;
+    --about-new-muted: #6a6878;
+    --about-new-soft: #6d6a86;
+    --about-new-paper: #fafafa;
+    --about-new-glass: rgba(255, 255, 255, 0.56);
+    --about-new-glass-strong: rgba(255, 255, 255, 0.76);
+    --about-new-line: rgba(102, 126, 234, 0.16);
+    --about-new-shadow: 0 12px 36px rgba(102, 126, 234, 0.07);
+    --about-new-accent: #667eea;
+    --about-new-deep: #764ba2;
+    --about-new-pink: #f093fb;
+    background:
+        radial-gradient(circle at 88% 8%, rgba(79, 172, 254, 0.18) 0, rgba(79, 172, 254, 0.1) 16%, rgba(79, 172, 254, 0) 36%),
+        #fbfcff;
+    color: var(--about-new-ink);
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+}
+
+.about-new-page p {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.012em;
+}
+
+.about-new-page::before {
+    display: none;
+}
+
+.about-new-page .nav {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+}
+
+.about-new-page .nav.scrolled {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.about-new-page .nav-link.active,
+.about-new-page .nav-link:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--about-new-accent);
+}
+
+.about-new-main {
+    width: min(100% - 140px, 1080px);
+    margin: 0 auto;
+    padding: 132px 0 104px;
+    position: relative;
+}
+
+.about-new-glass-card {
+    background: var(--about-new-glass);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 8px;
+    box-shadow: var(--about-new-shadow);
+    backdrop-filter: blur(24px) saturate(145%);
+    -webkit-backdrop-filter: blur(24px) saturate(145%);
+}
+
+.about-new-story {
+    display: block;
+}
+
+.about-new-story-card {
+    display: grid;
+    grid-template-columns: minmax(320px, 460px) minmax(360px, 1fr);
+    gap: 26px;
+    align-items: center;
+    padding: 0;
+}
+
+.about-new-photo-wrap {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    padding: 0;
+}
+
+.about-new-photo {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center 62%;
+    border-radius: inherit;
+    transform: scale(1.28);
+}
+
+.about-new-copy {
+    max-width: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about-new-copy h1,
+.about-new-section h2 {
+    color: var(--about-new-ink);
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+    font-weight: 800;
+    line-height: 1.02;
+    margin: 0;
+    letter-spacing: 0;
+}
+
+.about-new-copy h1 {
+    margin-bottom: 34px;
+}
+
+.about-new-copy p {
+    color: var(--about-new-muted);
+    font-size: 18px;
+    line-height: 1.52;
+    margin: 0 0 17px;
+}
+
+.about-new-copy p:last-child {
+    margin-bottom: 0;
+}
+
+.about-new-section {
+    margin-top: 96px;
+}
+
+.about-new-section h2 {
+    margin-bottom: 28px;
+}
+
+.about-new-beliefs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.about-new-belief-card {
+    background: rgba(255, 255, 255, 0.34);
+    border-color: rgba(255, 255, 255, 0.62);
+    min-height: 220px;
+    padding: 28px 30px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.about-new-belief-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 16px 42px rgba(102, 126, 234, 0.1);
+}
+
+.about-new-belief-card::before {
+    display: none;
+}
+
+.about-new-belief-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.about-new-belief-card h3 {
+    color: var(--about-new-ink);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 22px;
+}
+
+.about-new-belief-card h3 span {
+    display: inline-block;
+    font-size: 1.18rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.about-new-belief-card p {
+    color: var(--about-new-muted);
+    font-size: 18px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 500px;
+}
+
+.about-new-resume-section {
+    margin-top: 118px;
+}
+
+.about-new-resume-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.about-new-resume-card {
+    min-width: 0;
+    min-height: 330px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 10px 26px rgba(31, 41, 68, 0.08);
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.about-new-resume-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(31, 41, 68, 0.11);
+}
+
+.about-new-resume-image {
+    display: block;
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.about-new-resume-card-dog .about-new-resume-image {
+    object-position: center 44%;
+}
+
+.about-new-resume-card-puzzle .about-new-resume-image {
+    object-position: center 52%;
+}
+
+.about-new-resume-card-oysters .about-new-resume-image {
+    object-position: center 42%;
+}
+
+.about-new-resume-card-move .about-new-resume-image {
+    object-position: center 48%;
+}
+
+.about-new-resume-card p {
+    min-height: 100px;
+    padding: 26px 22px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.012em;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.about-new-resume-card-dog {
+    background: #566b69;
+}
+
+.about-new-resume-card-puzzle {
+    background: #4f4848;
+}
+
+.about-new-resume-card-oysters {
+    background: #999b62;
+}
+
+.about-new-resume-card-move {
+    background: #bcae9f;
+}
+
+.about-new-footer {
+    margin-top: 0;
+}
+
+@media (max-width: 980px) {
+    .about-new-main {
+        width: min(100% - 64px, 760px);
+        padding-top: 112px;
+    }
+
+    .about-new-story-card {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .about-new-photo-wrap {
+        max-width: 520px;
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 1.15 / 1;
+    }
+
+    .about-new-copy {
+        max-width: 680px;
+        padding: 24px;
+    }
+
+    .about-new-copy h1 {
+        margin-bottom: 28px;
+    }
+
+    .about-new-beliefs {
+        gap: 28px;
+    }
+
+    .about-new-resume-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-new-resume-card {
+        min-height: 320px;
+    }
+}
+
+@media (max-width: 680px) {
+    .about-new-main {
+        width: calc(100% - 40px);
+        padding: 96px 0 64px;
+    }
+
+    .about-new-copy h1,
+    .about-new-section h2 {
+        font-size: 1.25rem;
+        line-height: 1.14;
+    }
+
+    .about-new-copy p,
+    .about-new-belief-card p {
+        font-size: 18px;
+        line-height: 1.45;
+    }
+
+    .about-new-section {
+        margin-top: 64px;
+    }
+
+    .about-new-beliefs,
+    .about-new-resume-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .about-new-belief-card {
+        min-height: auto;
+        padding: 24px;
+    }
+
+    .about-new-copy {
+        padding: 26px;
+    }
+
+    .about-new-resume-section {
+        margin-top: 88px;
+    }
+
+    .about-new-resume-card {
+        min-height: 300px;
+    }
+
+    .about-new-resume-image {
+        height: 210px;
+    }
+}

@@ -16,11 +16,10 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 </head>
-<body class="about-standalone">
-    <!-- Navigation -->
-    <nav class="nav">
+<body class="about-new-page">
+    <nav class="nav about-new-nav">
         <a href="index.html" class="nav-logo"><img src="favicon.svg" alt="Rui" style="height: 28px; width: auto; display: block;"></a>
         <div class="nav-links">
             <a href="index.html#projects" class="nav-link">Projects</a>
@@ -28,53 +27,79 @@
         </div>
     </nav>
 
-    <!-- About Section -->
-    <section class="about-page-section">
-        <div class="about-split-layout">
-
-            <!-- Left: Photo -->
-            <div class="about-split-photo">
-                <div class="about-split-photo-inner">
-                    <img src="images/aboutimage.jpg" alt="Rui" class="about-split-img">
+    <main class="about-new-main">
+        <section class="about-new-story" aria-labelledby="story-title">
+            <div class="about-new-story-card">
+                <div class="about-new-photo-wrap">
+                    <img src="images/aboutimpage.jpg" alt="Rui standing outdoors" class="about-new-photo">
+                </div>
+                <div class="about-new-copy">
+                    <h1 id="story-title">The story so far</h1>
+                    <p>My path into design wasn't exactly planned.</p>
+                    <p>I studied Electrical Engineering, but over time I realized I was less interested in building the underlying technology itself, and more interested in understanding the people using it. That curiosity eventually led me to UX design, where I found a way to combine structured thinking with creative problem-solving.</p>
+                    <p>Over the past 7 years, I’ve designed products across ad tech, e-commerce, and IoT SaaS. I’ve often found myself working on complex, messy problems: products with competing priorities, ambiguous requirements, and a lot of information to make sense of. What I enjoy most is turning that complexity into something clearer, helping teams make better product decisions, not just better interfaces.</p>
                 </div>
             </div>
+        </section>
 
-            <!-- Right: Content -->
-            <div class="about-split-content">
-                <div class="about-split-inner">
-                    <h1 class="about-split-name">Hello again👋🏼</h1>
-                    <div class="about-split-bio">
-                        <p>With 7 years of experience shaping end-to-end UX for complex digital products, I've driven design impact across B2B platforms in IoT SaaS and ad-tech, as well as large-scale e-commerce experiences serving over 310 million global users. I specialize in bridging business objectives with user needs—crafting product strategies that are both scalable and customer-centric. My strengths lie in strategic problem-solving, data-informed decision-making, and collaborating cross-functionally to deliver measurable business outcomes.</p>
-                        <p>Right now I'm open to new challenges and opportunities. Please do not hesitate to contact me if you are interested in getting more details about my projects. <a href="mailto:rwux07@gmail.com" class="about-lets-talk">Let's Talk!</a></p>
-                    </div>
-                </div>
+        <section class="about-new-section" aria-labelledby="belief-title">
+            <h2 id="belief-title">What I Believe</h2>
+            <div class="about-new-beliefs">
+                <article class="about-new-belief-card about-new-glass-card">
+                    <h3><span aria-hidden="true">🧶</span> Embrace Complexity</h3>
+                    <p>Many products I’ve worked on are complex by nature, shaped by dense information, technical constraints, and competing needs. I believe good design isn’t about making complexity disappear, but understanding it well enough to make the right tradeoffs and turn it into something users can navigate.</p>
+                </article>
+                <article class="about-new-belief-card about-new-glass-card">
+                    <h3><span aria-hidden="true">💯</span> Design for Confidence</h3>
+                    <p>People rarely struggle because they can’t find a button. More often, they hesitate because they’re unsure what happens next. I design experiences that reduce uncertainty and help users move forward with confidence.</p>
+                </article>
             </div>
+        </section>
+
+        <section class="about-new-section about-new-resume-section" aria-labelledby="resume-title">
+            <h2 id="resume-title">Things You Probably Won't Find on My Resume</h2>
+            <div class="about-new-resume-grid">
+                <article class="about-new-resume-card about-new-resume-card-dog">
+                    <img src="images/dog.jpg" alt="" class="about-new-resume-image">
+                    <p>My dog turned me from a homebody to an outdoor person.</p>
+                </article>
+                <article class="about-new-resume-card about-new-resume-card-puzzle">
+                    <img src="images/puzzle-card.jpg" alt="" class="about-new-resume-image">
+                    <p>Apparently, I enjoy solving puzzles both at work and at home</p>
+                </article>
+                <article class="about-new-resume-card about-new-resume-card-oysters">
+                    <img src="images/oyster.jpg" alt="" class="about-new-resume-image">
+                    <p>I only eat raw oysters.</p>
+                </article>
+                <article class="about-new-resume-card about-new-resume-card-move">
+                    <img src="images/move.jpg" alt="" class="about-new-resume-image">
+                    <p>I've moved 12 times in 30 years.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-dark home-footer about-new-footer">
+        <div class="footer-contact">
+            <a href="https://linkedin.com/in/ivywang07" class="footer-item" target="_blank">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                    <rect x="2" y="9" width="4" height="12"/>
+                    <circle cx="4" cy="4" r="2"/>
+                </svg>
+                <span>LinkedIn</span>
+            </a>
+            <a href="mailto:rwux07@gmail.com" class="footer-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <span>rwux07@gmail.com</span>
+            </a>
         </div>
-
-        <!-- Footer -->
-        <footer class="footer-dark about-footer-fixed">
-            <div class="footer-contact">
-                <a href="https://linkedin.com/in/ivywang07/" class="footer-item" target="_blank">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                        <rect x="2" y="9" width="4" height="12"/>
-                        <circle cx="4" cy="4" r="2"/>
-                    </svg>
-                    <span>LinkedIn</span>
-                </a>
-<a href="mailto:rwux07@gmail.com" class="footer-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                    <span>rwux07@gmail.com</span>
-                </a>
-            </div>
-        </footer>
-    </section>
+    </footer>
 
     <script>
-        // Navigation glass effect on scroll
         (function() {
             const nav = document.querySelector('.nav');
             if (!nav) return;
